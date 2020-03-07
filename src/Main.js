@@ -13,19 +13,23 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import PrintIcon from '@material-ui/icons/Print';
+import AlarmIcon from '@material-ui/icons/Alarm';
 //========================
 import { mainListItems, secondaryListItems } from './components/MenuItems';
 import Copyright from './components/Copyright';
+import DayCell from './components/DayCell';
+import DayOfWeek from './components/DayOfWeek';
 import useStyles from './useStyles';
 
-
-export default function Dashboard() {
+export default function Main() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -91,24 +95,46 @@ export default function Dashboard() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                    {/* <Grid container spacing={3}>
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                <Chart />
-                            </Paper>
+                    <Toolbar className={classes.toolbar}>
+                        <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
+                            2020.03
+                        </Typography>
+                        <div className={classes.iconButton}>
+                            <IconButton aria-label="previous">
+                                <ChevronLeftIcon />
+                            </IconButton>
+                            <Button variant="outlined">금월</Button>
+                            <IconButton aria-label="next">
+                                <ChevronRightIcon />
+                            </IconButton>
+                        </div>
+                        <div className={classes.grow} />
+                        <div>
+                            <IconButton aria-label="previous">
+                                <PrintIcon />
+                            </IconButton>
+                            <IconButton aria-label="next">
+                                <AlarmIcon />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                    <Grid container className={classes.root} spacing={2}>
+                        <Grid container justify="center" spacing={0}>
+                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
+                                <Grid key={value} item>
+                                    <DayOfWeek dow={value}/>
+                                </Grid>
+                            ))}
                         </Grid>
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                <Deposits />
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <Orders />
-                            </Paper>
+                        <Grid container justify="center" spacing={0}>
+                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
+                                <Grid key={value} item>
+                                    <DayCell dow={value}/>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Grid>
-                    <br/> */}
+                    <br/>
                     <Typography paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                         ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
@@ -116,7 +142,7 @@ export default function Dashboard() {
                         gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
                         donec ultrices. 
                     </Typography>                    
-                    <Box pt={4}>
+                    <Box pt={1}>
                         <Copyright />
                     </Box>
                 </Container>

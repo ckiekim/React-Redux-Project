@@ -5,19 +5,6 @@ import { makeStyles, fade } from '@material-ui/core/styles';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    toolbar: {
-        paddingRight: 24, // keep right padding when drawer closed
-    },
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
@@ -33,14 +20,15 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    menuButton: {
-        marginRight: 36,
+    appBarSpacer: theme.mixins.toolbar,
+    container: {
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
     },
-    menuButtonHidden: {
-        display: 'none',
-    },
-    title: {
+    content: {
         flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
     },
     drawerPaper: {
         position: 'relative',
@@ -62,15 +50,36 @@ const useStyles = makeStyles(theme => ({
             width: theme.spacing(9),
         },
     },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
+    fixedHeight: {
+        height: 240,
     },
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+    grow: {
+        flexGrow: 1,
+    },
+    iconButton: {
+        '& > *': {
+            margin: theme.spacing(0),
+        },
+    },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: 120,
+            '&:focus': {
+            width: 200,
+            },
+        },
+    },
+    inputRoot: {
+        color: 'inherit',
+    },
+    menuButton: {
+        marginRight: 36,
+    },
+    menuButtonHidden: {
+        display: 'none',
     },
     paper: {
         padding: theme.spacing(2),
@@ -78,8 +87,8 @@ const useStyles = makeStyles(theme => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
-    fixedHeight: {
-        height: 240,
+    root: {
+        display: 'flex',
     },
     search: {
         position: 'relative',
@@ -104,19 +113,18 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    inputRoot: {
-        color: 'inherit',
+    title: {
+        flexGrow: 1,
     },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: 120,
-            '&:focus': {
-            width: 200,
-            },
-        },
+    toolbar: {
+        paddingRight: 24, // keep right padding when drawer closed
+    },
+    toolbarIcon: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
     },
 }));
 

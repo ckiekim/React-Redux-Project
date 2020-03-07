@@ -6,7 +6,7 @@ import Album from './templates/Album';
 import Pricing from './templates/Pricing';
 import StickyFooter from './templates/StickyFooter'; */
 import Dashboard from './dashboard/Dashboard';
-import MaterialUI from './templates/MaterialUI';
+import MaterialUI from './MaterialUI';
 import Main from './Main';
 
 class App extends Component {
