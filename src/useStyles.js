@@ -53,6 +53,17 @@ const useStyles = makeStyles(theme => ({
     fixedHeight: {
         height: 240,
     },
+    gridListRoot: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        minWidth: 1050,
+        minHeight: 350,
+    },
     grow: {
         flexGrow: 1,
     },

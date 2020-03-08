@@ -12,6 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -25,7 +27,7 @@ import AlarmIcon from '@material-ui/icons/Alarm';
 //========================
 import { mainListItems, secondaryListItems } from './components/MenuItems';
 import Copyright from './components/Copyright';
-import DayCell from './components/DayCell';
+import DayCard from './components/DayCard';
 import DayOfWeek from './components/DayOfWeek';
 import useStyles from './useStyles';
 
@@ -118,7 +120,26 @@ export default function Main() {
                             </IconButton>
                         </div>
                     </Toolbar>
-                    <Grid container className={classes.root} spacing={2}>
+                    <div className={classes.gridListRoot}>
+                        <GridList cellHeight={50} spacing={1} className={classes.gridList} cols={7}>
+                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
+                                <GridListTile key={value} rows={1}>
+                                    <DayOfWeek dow={value}/>
+                                </GridListTile>
+                            ))}
+                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
+                                <GridListTile key={value} rows={3}>
+                                    <DayCard dow={value} />
+                                </GridListTile>
+                            ))}
+                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
+                                <GridListTile key={value} rows={3}>
+                                    <DayCard dow={value} />
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </div>
+                    {/* <Grid container className={classes.root} spacing={2}>
                         <Grid container justify="center" spacing={0}>
                             {[0, 1, 2, 3, 4, 5, 6].map(value => (
                                 <Grid key={value} item>
@@ -129,19 +150,19 @@ export default function Main() {
                         <Grid container justify="center" spacing={0}>
                             {[0, 1, 2, 3, 4, 5, 6].map(value => (
                                 <Grid key={value} item>
-                                    <DayCell dow={value}/>
+                                    <DayCard dow={value}/>
                                 </Grid>
                             ))}
                         </Grid>
-                    </Grid>
-                    <br/>
+                    </Grid> */}
+                    {/* <br/>
                     <Typography paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                         ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
                         facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
                         gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
                         donec ultrices. 
-                    </Typography>                    
+                    </Typography> */}                    
                     <Box pt={1}>
                         <Copyright />
                     </Box>

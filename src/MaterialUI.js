@@ -1,71 +1,46 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import Paper from '@material-ui/core/Paper';
-import DayCell from './components/DayCell';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import DayCard from './components/DayCard';
+import DayOfWeek from './components/DayOfWeek';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        height: 140,
-        width: 100,
-    },
-    control: {
-        padding: theme.spacing(2),
-    },
+    gridListRoot: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    minWidth: 840,
+    minHeight: 350,
+  },
 }));
 
-export default function SpacingGrid() {
-    const [spacing, setSpacing] = React.useState(2);
-    const classes = useStyles();
+export default function ImageGridList() {
+  const classes = useStyles();
 
-    const handleChange = event => {
-        setSpacing(Number(event.target.value));
-    };
-
-    return (
-        <Grid container className={classes.root} spacing={2}>
-            <Grid container justify="center" spacing={0}>
-                {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                    <Grid key={value} item>
-                        <DayCell dow={value}/>
-                    </Grid>
-                ))}
-            </Grid>
-            <Grid container justify="center" spacing={0}>
-                {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                    <Grid key={value} item>
-                        <DayCell dow={value}/>
-                    </Grid>
-                ))}
-            </Grid>
-            <Grid container justify="center" spacing={0}>
-                {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                    <Grid key={value} item>
-                        <DayCell dow={value}/>
-                    </Grid>
-                ))}
-            </Grid>
-            <Grid container justify="center" spacing={0}>
-                {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                    <Grid key={value} item>
-                        <DayCell dow={value}/>
-                    </Grid>
-                ))}
-            </Grid>
-            <Grid container justify="center" spacing={0}>
-                {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                    <Grid key={value} item>
-                        <DayCell dow={value}/>
-                    </Grid>
-                ))}
-            </Grid>
-        </Grid>
-    );
+  return (
+    <div className={classes.gridListRoot}>
+      <GridList cellHeight={50} spacing={1} className={classes.gridList} cols={7}>
+        {[10, 11, 12, 13, 14, 15, 16].map(value => (
+          <GridListTile key={value} rows={1}>
+            <DayOfWeek />
+          </GridListTile>
+        ))}
+        {[0, 1, 2, 3, 4, 5, 6].map(value => (
+          <GridListTile key={value} rows={3}>
+            <DayCard dow={value} />
+          </GridListTile>
+        ))}
+        {[20, 21, 22, 23, 24, 25, 26].map(value => (
+          <GridListTile key={value} rows={3}>
+            <DayCard dow={value} />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+  );
 }
