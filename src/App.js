@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Dashboard from './dashboard/Dashboard';
 import MaterialUI from './MaterialUI';
 import Main from './Main';
+import DaySchedule from './components/DaySchedule';
 
 class App extends Component {
 	render() {

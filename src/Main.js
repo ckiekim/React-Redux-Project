@@ -23,9 +23,9 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PrintIcon from '@material-ui/icons/Print';
-import CreateIcon from '@material-ui/icons/Create';
 //========================
 import { mainListItems, secondaryListItems } from './components/MenuItems';
+import CreateSchedule from './components/CreateSchedule';
 import Copyright from './components/Copyright';
 import DayCard from './components/DayCardFunc';
 import DayOfWeek from './components/DayOfWeek';
@@ -112,9 +112,7 @@ export default function Main() {
                         </div>
                         <div className={classes.grow} />
                         <div>
-                            <IconButton aria-label="create">
-                                <CreateIcon />
-                            </IconButton>
+                            <CreateSchedule></CreateSchedule>
                             <IconButton aria-label="print">
                                 <PrintIcon />
                             </IconButton>
@@ -136,7 +134,7 @@ export default function Main() {
                             ))}
                         </GridList>
                     </div>                
-                    <Box pt={1}>
+                    <Box pt={0}>
                         <Copyright />
                     </Box>
                 </Container>

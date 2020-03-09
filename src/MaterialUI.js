@@ -24,23 +24,7 @@ export default function ImageGridList() {
 
   return (
     <div className={classes.gridListRoot}>
-      <GridList cellHeight={50} spacing={1} className={classes.gridList} cols={7}>
-        {[10, 11, 12, 13, 14, 15, 16].map(value => (
-          <GridListTile key={value} rows={1}>
-            <DayOfWeek />
-          </GridListTile>
-        ))}
-        {[0, 1, 2, 3, 4, 5, 6].map(value => (
-          <GridListTile key={value} rows={3}>
-            <DayCard dow={value} day={value} remark={value} schedule={value}/>
-          </GridListTile>
-        ))}
-        {[20, 21, 22, 23, 24, 25, 26].map(value => (
-          <GridListTile key={value} rows={3}>
-            <DayCard dow={value} day={value} remark={value} schedule={value}/>
-          </GridListTile>
-        ))}
-      </GridList>
+     
     </div>
   );
 }

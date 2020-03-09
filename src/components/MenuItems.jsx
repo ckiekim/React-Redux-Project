@@ -9,6 +9,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import LabelImportantIcon from '@material-ui/icons/LabelImportant';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 export const mainListItems = (
     <div>
@@ -50,15 +52,15 @@ export const secondaryListItems = (
     <div>
         <ListItem button>
             <ListItemIcon>
-                <AssignmentIcon />
+                <LabelImportantIcon />
             </ListItemIcon>
-            <ListItemText primary="Current month" />
+            <ListItemText primary="중요 일정" />
         </ListItem>
         <ListItem button>
             <ListItemIcon>
-                <AssignmentIcon />
+                <PriorityHighIcon />
             </ListItemIcon>
-            <ListItemText primary="Last quarter" />
+            <ListItemText primary="긴급 일정" />
         </ListItem>
         <ListItem button>
             <ListItemIcon>
