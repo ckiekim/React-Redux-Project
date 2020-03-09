@@ -17,7 +17,6 @@ export default class DayOfWeek extends Component {
 	render() {
 		const dowName = ['일', '월', '화', '수', '목', '금', '토'];
 		const classes = useStyles();
-		console.log(this.props.dow, typeof(this.props.dow));
 		let color = this.props.dow === 0 ? 'error' : 'textPrimary';
 
 		return (

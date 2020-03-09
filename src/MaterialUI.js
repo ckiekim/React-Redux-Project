@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import DayCard from './components/DayCard';
+import DayCard from './components/DayCardClass';
 import DayOfWeek from './components/DayOfWeek';
 
 const useStyles = makeStyles(theme => ({
@@ -32,12 +32,12 @@ export default function ImageGridList() {
         ))}
         {[0, 1, 2, 3, 4, 5, 6].map(value => (
           <GridListTile key={value} rows={3}>
-            <DayCard dow={value} />
+            <DayCard dow={value} day={value} remark={value} schedule={value}/>
           </GridListTile>
         ))}
         {[20, 21, 22, 23, 24, 25, 26].map(value => (
           <GridListTile key={value} rows={3}>
-            <DayCard dow={value} />
+            <DayCard dow={value} day={value} remark={value} schedule={value}/>
           </GridListTile>
         ))}
       </GridList>

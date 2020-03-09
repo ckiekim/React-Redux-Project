@@ -9,12 +9,13 @@ import Typography from '@material-ui/core/Typography';
 const myStyles = makeStyles(theme => ({
 	dcRoot: {
 		minWidth: 150,
-		minHeight: 120,
+		height: 150,
 		fontSize: 10,
 	},
     dcMargin: {
-      margin: theme.spacing(1),
-      marginLeft: theme.spacing(2),
+	  margin: theme.spacing(1),
+	  marginLeft: theme.spacing(0),
+      marginRight: theme.spacing(2),
     },
     dcIconButton: {
         '& > *': {
@@ -26,21 +27,22 @@ const myStyles = makeStyles(theme => ({
 export default function DayCard(props) {
     const myClasses = myStyles();
 	let color = props.dow === 0 ? 'error' : 'textPrimary';
+	if (props.remark === 2)
+		color = 'textSecondary';
     return (
 		<Card className={myClasses.dcRoot} variant="outlined">
 			<CardContent>
 				<Typography variant="h6" component="h6" color={color}>
-					{props.dow}
+					{props.day}
 				</Typography>
 				<Typography variant="body2" component="p" color={color}>
-					급여일
 					<IconButton aria-label="menu" className={myClasses.dcMargin} size="small">
 						<MenuIcon fontSize="inherit" />
 					</IconButton>
+					{props.name}
 				</Typography>
 				<Typography variant="body2" component="p">
-					09:00 프로젝트 3 강의
-
+					{props.schedule}
 				</Typography>
 			</CardContent>
 		</Card>

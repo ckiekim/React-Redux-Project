@@ -23,13 +23,14 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PrintIcon from '@material-ui/icons/Print';
-import AlarmIcon from '@material-ui/icons/Alarm';
+import CreateIcon from '@material-ui/icons/Create';
 //========================
 import { mainListItems, secondaryListItems } from './components/MenuItems';
 import Copyright from './components/Copyright';
-import DayCard from './components/DayCard';
+import DayCard from './components/DayCardFunc';
 import DayOfWeek from './components/DayOfWeek';
 import useStyles from './useStyles';
+import mo from './tmp/month';
 
 export default function Main() {
     const classes = useStyles();
@@ -40,7 +41,6 @@ export default function Main() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <div className={classes.root}>
@@ -112,11 +112,11 @@ export default function Main() {
                         </div>
                         <div className={classes.grow} />
                         <div>
-                            <IconButton aria-label="previous">
-                                <PrintIcon />
+                            <IconButton aria-label="create">
+                                <CreateIcon />
                             </IconButton>
-                            <IconButton aria-label="next">
-                                <AlarmIcon />
+                            <IconButton aria-label="print">
+                                <PrintIcon />
                             </IconButton>
                         </div>
                     </Toolbar>
@@ -126,43 +126,16 @@ export default function Main() {
                                 <GridListTile key={value} rows={1}>
                                     <DayOfWeek dow={value}/>
                                 </GridListTile>
-                            ))}
-                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                                <GridListTile key={value} rows={3}>
-                                    <DayCard dow={value} />
-                                </GridListTile>
-                            ))}
-                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                                <GridListTile key={value} rows={3}>
-                                    <DayCard dow={value} />
-                                </GridListTile>
+                            ))} 
+                            {mo.monthData.map(week => (
+                                week.map(day => (
+                                    <GridListTile key={day.day} rows={3}>
+                                        <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} schedule={day.schedule}/>
+                                    </GridListTile>
+                                ))
                             ))}
                         </GridList>
-                    </div>
-                    {/* <Grid container className={classes.root} spacing={2}>
-                        <Grid container justify="center" spacing={0}>
-                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                                <Grid key={value} item>
-                                    <DayOfWeek dow={value}/>
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Grid container justify="center" spacing={0}>
-                            {[0, 1, 2, 3, 4, 5, 6].map(value => (
-                                <Grid key={value} item>
-                                    <DayCard dow={value}/>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Grid> */}
-                    {/* <br/>
-                    <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                        facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                        gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                        donec ultrices. 
-                    </Typography> */}                    
+                    </div>                
                     <Box pt={1}>
                         <Copyright />
                     </Box>
