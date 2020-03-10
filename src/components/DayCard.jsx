@@ -38,10 +38,7 @@ export default function DayCard(props) {
 					<Typography variant="h6" component="h6" color={color} className={myClasses.dcMargin}>
 						{props.day}
 					</Typography>
-					<DaySchedule></DaySchedule>
-					{/* <IconButton aria-label="menu" className={myClasses.dcMargin} size="small">
-						<MenuIcon fontSize="inherit" />
-					</IconButton> */}					
+					<DaySchedule></DaySchedule>			
 				</Grid>
 				<Typography variant="body2" component="p" color={color} gutterBottom>
 					{props.name}

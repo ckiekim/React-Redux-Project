@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import DayCard from './components/DayCardClass';
+import DayCard from './components/DayCard';
 import DayOfWeek from './components/DayOfWeek';
 
 const useStyles = makeStyles(theme => ({

@@ -27,30 +27,30 @@ import PrintIcon from '@material-ui/icons/Print';
 import { mainListItems, secondaryListItems } from './components/MenuItems';
 import CreateSchedule from './components/CreateSchedule';
 import Copyright from './components/Copyright';
-import DayCard from './components/DayCardFunc';
+import DayCard from './components/DayCard';
 import DayOfWeek from './components/DayOfWeek';
 import useStyles from './useStyles';
 import mo from './tmp/month';
 
 export default function Main() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [drawerOpen, setDrawerOpen] = React.useState(true);
     const handleDrawerOpen = () => {
-        setOpen(true);
+        setDrawerOpen(true);
     };
     const handleDrawerClose = () => {
-        setOpen(false);
+        setDrawerOpen(false);
     };
 
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+            <AppBar position="absolute" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
                         edge="start" color="inherit" aria-label="open drawer"
                         onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        className={clsx(classes.menuButton, drawerOpen && classes.menuButtonHidden)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -80,9 +80,9 @@ export default function Main() {
             <Drawer
                 variant="permanent"
                 classes={{
-                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
                 }}
-                open={open}
+                open={drawerOpen}
             >
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleDrawerClose}>

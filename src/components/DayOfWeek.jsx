@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -13,21 +13,19 @@ const useStyles = theme => ({
 	},
 });
 
-export default class DayOfWeek extends Component {
-	render() {
-		const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-		const classes = useStyles();
-		let color = this.props.dow === 0 ? 'error' : 'textPrimary';
+export default function DayOfWeek(props) {
+	const dowName = ['일', '월', '화', '수', '목', '금', '토'];
+	const myClasses = useStyles();
+	let color = props.dow === 0 ? 'error' : 'textPrimary';
 
-		return (
-			<Card className={classes.dowRoot} variant="outlined">
-				<CardContent align="center">
-					<Typography color={color} className={classes.dowTitle}>
-						{dowName[this.props.dow]}
-					</Typography>
-				</CardContent>
-			</Card>
-		);
-	}
+	return (
+		<Card className={myClasses.dowRoot} variant="outlined">
+			<CardContent align="center">
+				<Typography color={color} className={myClasses.dowTitle}>
+					{dowName[props.dow]}
+				</Typography>
+			</CardContent>
+		</Card>
+	);
 }
 

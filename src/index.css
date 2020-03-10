@@ -1,4 +1,5 @@
-@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+/* @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); */
+@import './fonts/notosanskr.css';
 
 body {
     margin: 0;
