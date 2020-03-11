@@ -17,6 +17,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import dd from '../tmp/day';
+import d0316 from '../tmp/day20200316';
+import d0317 from '../tmp/day20200317';
 
 const myStyles = makeStyles(theme => ({
 	table: {
@@ -32,16 +34,22 @@ const myStyles = makeStyles(theme => ({
 export default function DaySchedule(props) {
     const myClasses = myStyles();
     const [dayScheduleOpen, setDayScheduleOpen] = React.useState(false);
+    const [todaySchedule, setTodaySchedule] = React.useState(dd.dayData);
     const handleClickOpen = () => {
         setDayScheduleOpen(true);
+        if (props.fullDay === '20200316')
+            setTodaySchedule(d0316.dayData);
+        else if (props.fullDay === '20200317')
+            setTodaySchedule(d0317.dayData);
+        else
+            setTodaySchedule(dd.dayData);
     };
     const handleClickClose = () => {
         setDayScheduleOpen(false);
     };
 
-    const dayData = dd.dayData;
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-    const size = dd.dayData.schedule.length;
+    const size = todaySchedule.schedule.length;
     let rows = [];
     for (let i=size; i<3; i++)
         rows.push(i);
@@ -54,7 +62,7 @@ export default function DaySchedule(props) {
                 <DialogTitle>일간 일정</DialogTitle>
                 <DialogContent>
                     <Typography variant="h6" component="h6" color="textPrimary" gutterBottom>
-                        {dayData.date} ({dowName[dayData.dow]}) {dayData.name}
+                        {todaySchedule.date} ({dowName[todaySchedule.dow]}) {todaySchedule.name}
                     </Typography>
                     <Table className={myClasses.table} aria-label="simple table">
                         <TableHead>
@@ -69,7 +77,7 @@ export default function DaySchedule(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {dayData.schedule.map(row => (
+                            {todaySchedule.schedule.map(row => (
                                 <TableRow key={row.name}>
                                     <TableCell component="th" scope="row">
                                         {row.name}

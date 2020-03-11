@@ -24,13 +24,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PrintIcon from '@material-ui/icons/Print';
 //========================
-import { mainListItems, secondaryListItems } from './components/MenuItems';
-import CreateSchedule from './components/CreateSchedule';
-import Copyright from './components/Copyright';
-import DayCard from './components/DayCard';
-import DayOfWeek from './components/DayOfWeek';
+import { mainListItems, secondaryListItems } from './MenuItems';
+import CreateSchedule from './CreateSchedule';
+import Copyright from './Copyright';
+import DayCard from './DayCard';
+import DayOfWeek from './DayOfWeek';
 import useStyles from './useStyles';
-import mo from './tmp/month';
+import mo from '../tmp/month';
 
 export default function Main() {
     const classes = useStyles();

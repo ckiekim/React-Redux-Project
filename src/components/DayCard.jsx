@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import DaySchedule from './DaySchedule';
 
@@ -29,6 +27,8 @@ const myStyles = makeStyles(theme => ({
 export default function DayCard(props) {
     const myClasses = myStyles();
 	let color = props.dow === 0 ? 'error' : 'textPrimary';
+	if (props.remark === 1)
+		color = 'error';
 	if (props.remark === 2)
 		color = 'textSecondary';
     return (
@@ -38,12 +38,12 @@ export default function DayCard(props) {
 					<Typography variant="h6" component="h6" color={color} className={myClasses.dcMargin}>
 						{props.day}
 					</Typography>
-					<DaySchedule></DaySchedule>			
+					<DaySchedule fullDay={props.fullDay}></DaySchedule>			
 				</Grid>
 				<Typography variant="body2" component="p" color={color} gutterBottom>
 					{props.name}
 				</Typography>
-				{props.schedule.map(item => (
+				{props.summary.map(item => (
 					<Typography variant="body2" component="p">{item}</Typography>
 				))}
 			</CardContent>

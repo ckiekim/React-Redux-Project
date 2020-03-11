@@ -54,6 +54,7 @@ export default function CreateSchedule() {
         setFormData({...formData, ['option']:event.target.checked});
     };
     const handleDateChange = name => event => {
+        event.preventDefault();
         let date = new Date(event);
         let hour = Number(date.toTimeString().substring(0, 2));
         let minute = Number(date.toTimeString().substring(3, 5));
@@ -74,7 +75,8 @@ export default function CreateSchedule() {
     const handleClose = () => {
         setCreateScheduleOpen(false);
     };
-    const handleSubmit = () => {
+    const handleSubmit = event => {
+        event.preventDefault();
         //console.log(formData);
         setCreateScheduleOpen(false);
     }

@@ -1,5 +1,3 @@
-import React from 'react';
-//import clsx from 'clsx';
 import { makeStyles, fade } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -24,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     container: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
+        overflow: 'auto',
     },
     content: {
         flexGrow: 1,
@@ -57,7 +56,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        overflow: 'hidden',
+        overflow: 'auto',
         backgroundColor: theme.palette.background.paper,
     },
     gridList: {

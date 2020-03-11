@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
-import MaterialUI from './MaterialUI';
-import Main from './Main';
-import DaySchedule from './components/DaySchedule';
+import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TopLeft from './components/TopLeft';
+import Main from './components/Main';
+
+const styles = theme => ({
+    root: {
+        display: 'flex'
+    }
+});
 
 class App extends Component {
 	render() {
+		const { classes } = this.props;
 		return (
-			<div className="App">
+			<div className={classes.root}>
+				<CssBaseline />
+				<TopLeft/>
 				<Main/>
 			</div>
 		);
 	}
 }
 
-export default App;
+export default withStyles(styles)(App);
