@@ -1,22 +1,25 @@
-import Content from '../components/Main';
+import Main from '../components/Main';
 import { connect } from 'react-redux';
 
 export default connect(
     function(state) {
-        let _title, _desc;
+        let year, month, monthData;
         if (state.mode === 'READ') {
-            _title = state.welcome_content.title;
-            _desc = state.welcome_content.desc;
-        } else {
-            for (let item of state.contents) {
-                if (item.id === state.selected_id) {
-                    _title = item.title;
-                    _desc = item.desc;
-                    break;
-                }
-            }
+            year = state.year;
+            month = state.month;
+            monthData = state.monthData;
+            //monthData = JSON.parse(JSON.stringify(state.monthData));
         }
-        return {title:_title, desc:_desc}
+        return {year, month, monthData};
     },
-    null
-)(Content);
+    function(dispatch) {
+        return {
+            onChangeMonth: function(year, month) {
+                //console.log("MainContainer", year, month);
+                dispatch({
+                    type:'CHANGE_MONTH', year, month
+                });
+            }
+        };
+    }
+)(Main);

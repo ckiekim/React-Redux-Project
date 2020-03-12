@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
-import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TopLeft from './components/TopLeft';
-import Main from './components/Main';
-
-const styles = theme => ({
-    root: {
-        display: 'flex'
-    }
-});
+import MainContainer from './containers/MainContainer';
 
 class App extends Component {
 	render() {
-		const { classes } = this.props;
+		//console.log(this.props.mode);
 		return (
-			<div className={classes.root}>
+			<div style={{ display: 'flex'}}>
 				<CssBaseline />
-				<TopLeft/>
-				<Main/>
+				<TopLeft badgeContent="3" />
+				<MainContainer />
 			</div>
 		);
 	}
 }
 
-export default withStyles(styles)(App);
+export default connect(
+	function(state) {
+		return { mode: state.mode }
+	},
+	null
+)(App);

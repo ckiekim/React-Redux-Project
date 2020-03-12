@@ -1,11 +1,16 @@
 import {createStore} from 'redux';
+// Temporary use
+import m3 from '../tmp/month202003';
+import m4 from '../tmp/month202004';
 
 let initState = {
     mode: 'READ',
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
-    noOfWeeks : 5,
-    monthData : [
+    today: new Date().toISOString().substring(0, 10),
+    badgeContent: 3,
+    monthData : m3.monthData,
+    /* [
         [{dow:0, day:1, fullDay:'20200301', remark:1, name:'삼일절', summary:[]},
         {dow:1, day:2, fullDay:'20200302', remark:0, name:'', summary:['12:00 중식']},
         {dow:2, day:3, fullDay:'20200303', remark:0, name:'', summary:[]},
@@ -45,28 +50,36 @@ let initState = {
         {dow:4, day:2, fullDay:'20200402', remark:2, name:'', summary:['09:00 프로젝트3']},
         {dow:5, day:3, fullDay:'20200403', remark:2, name:'', summary:['09:00 프로젝트3']},
         {dow:6, day:4, fullDay:'20200404', remark:2, name:'청명', summary:[]}]
-    ],
-    dayData: {
-        date: '2020-03-16',
+    ], */
+    todayData: {
+        date: '2020-03-12',
         dow: 1,
         remark: 0,
         name: '시험일',
         schedule: [
             {name: '프로젝트2 강의', place:'강남대', isImportant: true, isPrior: false,
-                startDayTime: '2020-03-09 09:00', endDayTime: '2020-03-09 18:00'},
+                startDayTime: '2020-03-12 09:00', endDayTime: '2020-03-12 18:00'},
             {name: '우한코로나 대책회의', place:'강남대', isImportant: true, isPrior: true,
-                startDayTime: '2020-03-09 16:00', endDayTime: '2020-03-09 16:30'},
+                startDayTime: '2020-03-12 16:00', endDayTime: '2020-03-12 16:30'},
             {name: '묻지마 석식', place:'강남역 삼계탕', isImportant: false, isPrior: false,
-                startDayTime: '2020-03-09 19:00', endDayTime: '2020-03-09 21:00'}
+                startDayTime: '2020-03-12 19:00', endDayTime: '2020-03-12 21:00'}
         ]
     }
 };
 
 function reducer(state=initState, action) {
-    if (action.type === '') {
-        return {...state, mode:''};
+    switch(action.type) {
+    case 'CHANGE_MONTH':
+        let monthData;
+        if (action.month % 2 === 0)
+            monthData = m4.monthData;
+        else
+            monthData = m3.monthData;
+        return {...state, mode:'READ', 
+                year:action.year, month:action.month, monthData};
+    default:
+        return state;
     }
-    return state;
 }
 
 export default createStore(reducer,

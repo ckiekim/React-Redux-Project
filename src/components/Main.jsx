@@ -16,41 +16,33 @@ import Copyright from './Copyright';
 import DayCard from './DayCard';
 import DayOfWeek from './DayOfWeek';
 import useStyles from './useStyles';
-import mo from '../tmp/month';
-import m3 from '../tmp/month202003';
-import m4 from '../tmp/month202004';
 
-export default function Main() {
+export default function Main(props) {
     const classes = useStyles();
-    const [year, setYear] = React.useState(new Date().getFullYear());
-    const [month, setMonth] = React.useState(new Date().getMonth() + 1);
-    const [monthData, setMonthData] = React.useState(mo.monthData);
     const handlePrevious = () => {
-        let newMonth = month - 1;
+        let newYear = props.year;
+        let newMonth = props.month - 1;
         if (newMonth < 1) {
-            setYear(year - 1);
-            setMonth(12);
-        } else
-            setMonth(newMonth);
-        setMonthData(m3.monthData);
+            newYear--;
+            newMonth = 12;
+        }
+        props.onChangeMonth(newYear, newMonth);
     }
     const handleThisMonth = () => {
         let newYear = new Date().getFullYear();
         let newMonth = new Date().getMonth() + 1;
-        if (year !== newYear || month !== newMonth) {
-            setYear(newYear);
-            setMonth(newMonth);
-            setMonthData(mo.monthData);
+        if (props.year !== newYear || props.month !== newMonth) {
+            props.onChangeMonth(newYear, newMonth);
         }
     }
     const handleNext = () => {
-        let newMonth = month + 1;
+        let newYear = props.year;
+        let newMonth = props.month + 1;
         if (newMonth > 12) {
-            setYear(year + 1);
-            setMonth(1);
-        } else
-            setMonth(newMonth);
-        setMonthData(m4.monthData);
+            newYear++;
+            newMonth = 1;
+        }
+        props.onChangeMonth(newYear, newMonth);
     }
 
     return (
@@ -59,7 +51,7 @@ export default function Main() {
             <Container maxWidth="lg" className={classes.container}>
                 <Toolbar className={classes.toolbar}>
                     <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-                        {year}. {month}
+                        {props.year}. {props.month}
                     </Typography>
                     <div className={classes.iconButton}>
                         <IconButton aria-label="previous" onClick={handlePrevious}>
@@ -85,7 +77,7 @@ export default function Main() {
                                 <DayOfWeek dow={value}/>
                             </GridListTile>
                         ))} 
-                        {monthData.map(week => (
+                        {props.monthData.map(week => (
                             week.map(day => (
                                 <GridListTile key={day.day} rows={3}>
                                     <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
