@@ -11,7 +11,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PrintIcon from '@material-ui/icons/Print';
 
-import CreateSchedule from './CreateSchedule';
+import CreateScheduleContainer from '../containers/CreateScheduleContainer';
 import Copyright from './Copyright';
 import DayCard from './DayCard';
 import DayOfWeek from './DayOfWeek';
@@ -64,7 +64,7 @@ export default function Main(props) {
                     </div>
                     <div className={classes.grow} />
                     <div>
-                        <CreateSchedule></CreateSchedule>
+                        <CreateScheduleContainer/>
                         <IconButton aria-label="print">
                             <PrintIcon />
                         </IconButton>

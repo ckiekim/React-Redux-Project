@@ -4,7 +4,8 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import DaySchedule from './DaySchedule';
+//import DaySchedule from './DaySchedule';
+import DayScheduleContainer from '../containers/DayScheduleContainer';
 
 const myStyles = makeStyles(theme => ({
 	dcRoot: {
@@ -38,7 +39,7 @@ export default function DayCard(props) {
 					<Typography variant="h6" component="h6" color={color} className={myClasses.dcMargin}>
 						{props.day}
 					</Typography>
-					<DaySchedule fullDay={props.fullDay}></DaySchedule>			
+					<DayScheduleContainer fullDay={props.fullDay}></DayScheduleContainer>			
 				</Grid>
 				<Typography variant="body2" component="p" color={color} gutterBottom>
 					{props.name}

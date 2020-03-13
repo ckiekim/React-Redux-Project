@@ -2,6 +2,8 @@ import {createStore} from 'redux';
 // Temporary use
 import m3 from '../tmp/month202003';
 import m4 from '../tmp/month202004';
+import d16 from '../tmp/day20200316';
+import d17 from '../tmp/day20200317';
 
 let initState = {
     mode: 'READ',
@@ -51,7 +53,8 @@ let initState = {
         {dow:5, day:3, fullDay:'20200403', remark:2, name:'', summary:['09:00 프로젝트3']},
         {dow:6, day:4, fullDay:'20200404', remark:2, name:'청명', summary:[]}]
     ], */
-    todayData: {
+    dayData: new Date().getDay()%2 === 0 ? d16.dayData : d17.dayData,
+    /* {
         date: '2020-03-12',
         dow: 1,
         remark: 0,
@@ -64,19 +67,40 @@ let initState = {
             {name: '묻지마 석식', place:'강남역 삼계탕', isImportant: false, isPrior: false,
                 startDayTime: '2020-03-12 19:00', endDayTime: '2020-03-12 21:00'}
         ]
+    }, */
+    formData: {
+        title: '', option: false, startDay: new Date(), startTime: '',
+        endDay: null, endTime: '', place: '', desc: ''
     }
 };
 
 function reducer(state=initState, action) {
+    let monthData;
     switch(action.type) {
     case 'CHANGE_MONTH':
-        let monthData;
         if (action.month % 2 === 0)
             monthData = m4.monthData;
         else
             monthData = m3.monthData;
         return {...state, mode:'READ', 
                 year:action.year, month:action.month, monthData};
+    case 'CHANGE_DATE':
+        let dayData;
+        let day = parseInt(action.fullDay)
+        if (day % 2 === 0)
+            dayData = d16.dayData;
+        else
+            dayData = d17.dayData;
+        return {...state, mode:'READ', dayData};
+    case 'CREATE_PROC':
+        let formData = action.formData;
+        let year = parseInt(formData.startDay.substring(0,4));
+        let month = parseInt(formData.startDay.substring(5,7));
+        if (month % 2 === 0)
+            monthData = m4.monthData;
+        else
+            monthData = m3.monthData;
+        return {...state, mode:'READ', year, month, monthData};
     default:
         return state;
     }
