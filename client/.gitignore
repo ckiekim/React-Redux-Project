@@ -2,7 +2,6 @@
 package-lock.json
 tmp
 fonts
-database.json
 
 # dependencies
 node_modules
