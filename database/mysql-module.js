@@ -21,6 +21,54 @@ module.exports = {
         });
         return connection;
     },
+    getWholeDays:  function(year, month, callback) {
+        const conn = this.getConnection();
+        const sql = 'select * from calendar where cYear=? and cMonth=?';
+console.log(year, month);
+        conn.query(sql, year, month, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
+    getFirstDays:  function(year, month, number, callback) {
+        const conn = this.getConnection();
+        const sql = 'select * from calendar where cYear=? and cMonth=? limit ?';
+
+        conn.query(sql, year, month, number, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
+    getLastDays:  function(year, month, number, callback) {
+        const conn = this.getConnection();
+        const sql = 'select * from calendar where cYear=? and cMonth=? order by cDay desc limit ?';
+
+        conn.query(sql, year, month, number, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
+    initCalendar:    function(params, callback) {
+        const conn = this.getConnection();
+        const sql = 'insert into calendar(fullDay, cYear, cMonth, cDay, dow, noWeek) values (?, ?, ?, ?, ?, ?)';
+
+        conn.query(sql, params, function(err, result) {
+            if (err)
+                console.log(err);
+            else
+                callback();
+        });
+        conn.end();
+    },
     getCustomerById:    function(id, callback) {
         const conn = this.getConnection();
         const sql = 'select * from customer where id = ?';   // DATE_FORMAT(createdDate, '%Y-%m-%d %T')
