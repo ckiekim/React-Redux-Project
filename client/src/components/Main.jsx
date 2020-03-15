@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -44,6 +44,12 @@ export default function Main(props) {
         }
         props.onChangeMonth(newYear, newMonth);
     }
+
+    // Similar to componentDidMount and componentDidUpdate: 
+    /* useEffect(() => { 
+        // Update the document title using the browser API 
+        document.title = `You clicked ${count} times`; 
+    }); */
 
     return (
         <main className={classes.content}>

@@ -21,11 +21,11 @@ module.exports = {
         });
         return connection;
     },
-    getWholeDays:  function(year, month, callback) {
+    getWholeDays:  function(params, callback) {
         const conn = this.getConnection();
         const sql = 'select * from calendar where cYear=? and cMonth=?';
-console.log(year, month);
-        conn.query(sql, year, month, function(err, rows, fields) {
+
+        conn.query(sql, params, function(err, rows, fields) {
             if (err)
                 console.log(err);
             else
@@ -33,11 +33,11 @@ console.log(year, month);
         });
         conn.end();
     },
-    getFirstDays:  function(year, month, number, callback) {
+    getFirstDays:  function(params, callback) {
         const conn = this.getConnection();
         const sql = 'select * from calendar where cYear=? and cMonth=? limit ?';
 
-        conn.query(sql, year, month, number, function(err, rows, fields) {
+        conn.query(sql, params, function(err, rows, fields) {
             if (err)
                 console.log(err);
             else
@@ -45,11 +45,11 @@ console.log(year, month);
         });
         conn.end();
     },
-    getLastDays:  function(year, month, number, callback) {
+    getLastDays:    function(params, callback) {
         const conn = this.getConnection();
         const sql = 'select * from calendar where cYear=? and cMonth=? order by cDay desc limit ?';
-
-        conn.query(sql, year, month, number, function(err, rows, fields) {
+    
+        conn.query(sql, params, function(err, rows, fields) {
             if (err)
                 console.log(err);
             else
