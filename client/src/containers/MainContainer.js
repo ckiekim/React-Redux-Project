@@ -10,6 +10,7 @@ export default connect(
             monthData = state.monthData;
             //monthData = JSON.parse(JSON.stringify(state.monthData));
         }
+        console.log(year, month);
         return {year, month, monthData};
     },
     function(dispatch) {

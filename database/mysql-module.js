@@ -1,6 +1,6 @@
 const fs = require('fs');
 const mysql = require('mysql');
-const data = fs.readFileSync('./database.json');
+const data = fs.readFileSync('./database/database.json');
 const conf = JSON.parse(data);
 
 module.exports = {

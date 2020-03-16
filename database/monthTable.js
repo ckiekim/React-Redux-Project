@@ -37,7 +37,7 @@ module.exports.monthTable = function(year, month, callback) {
                         wholeDays.push(day);
                     for (let day of nextDays)
                         wholeDays.push(day);
-                    callback(wholeDays);                
+                    callback(mapper(month, wholeDays));                
                 });
             });
         } else if (prevNumber == 0 && nextNumber != 0) {
@@ -47,7 +47,7 @@ module.exports.monthTable = function(year, month, callback) {
                     wholeDays.push(day);
                 for (let day of nextDays)
                     wholeDays.push(day);
-                callback(wholeDays);                
+                callback(mapper(month, wholeDays));                
             });
         } else if (prevNumber != 0 && nextNumber == 0) {
             params = [prevYear, prevMonth, prevNumber];
@@ -57,12 +57,36 @@ module.exports.monthTable = function(year, month, callback) {
                     wholeDays.push(prevDays[i]);
                 for (let day of days)
                     wholeDays.push(day);
-                callback(wholeDays);                
+                callback(mapper(month, wholeDays));                
             });
         } else {
             for (let day of days)
                 wholeDays.push(day);
-            callback(wholeDays);
+            callback(mapper(month, wholeDays));
         }
     });
+
+    const mapper = function(month, wholeDays) {
+        let monthData = [];
+        let day, remark;
+        for (let i=0; i<wholeDays.length/7; i++) {
+            let week = [];
+            for (let k=0; k<7; k++) {
+                day = wholeDays[i * 7 + k];
+                remark = day.cMonth == month ? 0 : 2;
+                remark = day.holiday == 1 ? 1 : remark;
+                let clientFormat = {
+                    dow: day.dow,
+                    day: day.cDay,
+                    fullDay: day.fullDay,
+                    remark: remark,
+                    name: day.special,
+                    summary: []
+                }
+                week.push(clientFormat);
+            }
+            monthData.push(week);
+        }
+        return(monthData);
+    };
 }

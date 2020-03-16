@@ -50,7 +50,7 @@ export default function DaySchedule(props) {
     };
 
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-    console.log(props.dayData);
+    //console.log(props.dayData);
     const size = props.dayData.schedule.length;
     let rows = [];
     for (let i=size; i<3; i++)

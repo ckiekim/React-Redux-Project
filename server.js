@@ -15,4 +15,8 @@ app.get('/api/calendar/:yearMonth', (req, res) => {
     });
 });
 
+app.get('/test', (req, res) => {
+
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
