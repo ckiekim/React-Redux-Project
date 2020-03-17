@@ -5,8 +5,8 @@ import d17 from '../tmp/day20200317';
 const CHANGE_DATE = 'CHANGE_DATE';
 const CREATE_PROC = 'CREATE_PROC';
 
-export changeDate = createAction(CHANGE_DATE);
-export createProc = createAction(CREATE_PROC);
+export const changeDate = createAction(CHANGE_DATE);
+export const createProc = createAction(CREATE_PROC);
 
 const initialState = {
     mode: 'READ',

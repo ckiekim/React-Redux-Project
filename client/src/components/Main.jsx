@@ -20,54 +20,58 @@ import * as monthActions from '../modules/month';
 
 export default function Main(props) {
     const classes = useStyles();
+    const { year, month, monthData, loading, error, MonthActions } = props;
     const handlePrevious = () => {
-        let newYear = props.year;
-        let newMonth = props.month - 1;
+        let newYear = year;
+        let newMonth = month - 1;
         if (newMonth < 1) {
             newYear--;
             newMonth = 12;
         }
-        props.changeMonth({year:newYear, month:newMonth});
-    }
+        MonthActions.changeMonth({year:newYear, month:newMonth});
+    };
     const handleThisMonth = () => {
         let newYear = new Date().getFullYear();
         let newMonth = new Date().getMonth() + 1;
-        if (props.year !== newYear || props.month !== newMonth) {
-            props.changeMonth({year:newYear, month:newMonth});
+        if (year !== newYear || month !== newMonth) {
+            MonthActions.changeMonth({year:newYear, month:newMonth});
         }
-    }
+    };
     const handleNext = () => {
-        let newYear = props.year;
-        let newMonth = props.month + 1;
+        let newYear = year;
+        let newMonth = month + 1;
         if (newMonth > 12) {
             newYear++;
             newMonth = 1;
         }
-        props.changeMonth({year:newYear, month:newMonth});
-    }
+        MonthActions.changeMonth({year:newYear, month:newMonth});
+    };
 
     const getCalendar = async (yearMonth) => {
-        const { MonthActions }
-    }
+        console.log('getCalendar()', yearMonth);
+        try {
+            await MonthActions.getCalendar(yearMonth);
+            console.log('요청이 완료된 후 실행됨');
+        } catch(e) {
+            console.log('에러 발생!!!');
+        }
+    };
 
-    // Similar to componentDidMount
     useEffect(() => { 
-        
-        document.title = `You clicked ${count} times`; 
+        console.log('useEffect()', year, month);
+        let yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
+        getCalendar(yearMonth);
     }, []);
-    // Similar to componentWillReceiveProps
-    useEffect(() => { 
-         
-        document.title = `You clicked ${count} times`; 
-    }, [month]);
 
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
+            {loading && <h2>로딩중</h2>}
+            {error ? <h1>에러발생!!!</h1> : (
             <Container maxWidth="lg" className={classes.container}>
                 <Toolbar className={classes.toolbar}>
                     <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-                        {props.year}. {props.month}
+                        {year}. {month}
                     </Typography>
                     <div className={classes.iconButton}>
                         <IconButton aria-label="previous" onClick={handlePrevious}>
@@ -93,7 +97,7 @@ export default function Main(props) {
                                 <DayOfWeek dow={value}/>
                             </GridListTile>
                         ))} 
-                        {props.monthData.map(week => (
+                        {monthData.map(week => (
                             week.map(day => (
                                 <GridListTile key={day.day} rows={3}>
                                     <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
@@ -106,6 +110,7 @@ export default function Main(props) {
                     <Copyright />
                 </Box>
             </Container>
+            )}
         </main>
     );
 }
