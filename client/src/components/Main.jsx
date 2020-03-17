@@ -16,6 +16,7 @@ import Copyright from './Copyright';
 import DayCard from './DayCard';
 import DayOfWeek from './DayOfWeek';
 import useStyles from './useStyles';
+import * as monthActions from '../modules/month';
 
 export default function Main(props) {
     const classes = useStyles();
@@ -26,13 +27,13 @@ export default function Main(props) {
             newYear--;
             newMonth = 12;
         }
-        props.onChangeMonth(newYear, newMonth);
+        props.changeMonth({year:newYear, month:newMonth});
     }
     const handleThisMonth = () => {
         let newYear = new Date().getFullYear();
         let newMonth = new Date().getMonth() + 1;
         if (props.year !== newYear || props.month !== newMonth) {
-            props.onChangeMonth(newYear, newMonth);
+            props.changeMonth({year:newYear, month:newMonth});
         }
     }
     const handleNext = () => {
@@ -42,14 +43,23 @@ export default function Main(props) {
             newYear++;
             newMonth = 1;
         }
-        props.onChangeMonth(newYear, newMonth);
+        props.changeMonth({year:newYear, month:newMonth});
     }
 
-    // Similar to componentDidMount and componentDidUpdate: 
-    /* useEffect(() => { 
-        // Update the document title using the browser API 
+    const getCalendar = async (yearMonth) => {
+        const { MonthActions }
+    }
+
+    // Similar to componentDidMount
+    useEffect(() => { 
+        
         document.title = `You clicked ${count} times`; 
-    }); */
+    }, []);
+    // Similar to componentWillReceiveProps
+    useEffect(() => { 
+         
+        document.title = `You clicked ${count} times`; 
+    }, [month]);
 
     return (
         <main className={classes.content}>

@@ -1,0 +1,27 @@
+import { createAction, handleActions } from 'redux-actions';
+//import { pender } from 'redux-pender';
+import axios from 'axios';
+import m3 from '../tmp/month202003';
+import m4 from '../tmp/month202004';
+
+function getCalendarAPI(yearMonth) {
+    return axios.get(`/api/calendar/${yearMonth}`);
+}
+
+const CHANGE_MONTH = 'CHANGE_MONTH';
+const GET_CALENDAR = 'GET_CALENDAR';
+export const changeMonth = createAction(CHANGE_MONTH);
+
+const initialState = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    monthData : m3.monthData
+}
+
+export default handleActions({
+    [CHANGE_MONTH]: (state, action) => {
+        console.log(action.payload);
+        const { year, month } = action.payload;
+        return { ...state, year, month };
+    }
+}, initialState);

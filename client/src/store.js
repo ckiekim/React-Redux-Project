@@ -1,0 +1,10 @@
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import pender from 'redux-pender';
+import modules from './modules';
+
+const store = createStore(modules,
+    compose(applyMiddleware(thunk, pender()),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+
+export default store;
