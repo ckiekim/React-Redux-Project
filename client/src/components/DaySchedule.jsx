@@ -74,21 +74,21 @@ export default function DaySchedule(props) {
                                 <TableCell align="center">시작시간</TableCell>
                                 <TableCell align="center">종료시간</TableCell>
                                 <TableCell align="center">중요</TableCell>
-                                <TableCell align="center">긴급</TableCell>
+                                <TableCell align="center">메모</TableCell>
                                 <TableCell align="center">비고</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {props.dayData.schedule.map(row => (
-                                <TableRow key={row.name}>
+                                <TableRow key={row.title}>
                                     <TableCell component="th" scope="row">
-                                        {row.name}
+                                        {row.title}
                                     </TableCell>
                                     <TableCell>{row.place}</TableCell>
                                     <TableCell align="center">{row.startDayTime}</TableCell>
                                     <TableCell align="center">{row.endDayTime}</TableCell>
-                                    <TableCell align="center">{row.isImportant? <span>✓</span>: ' '}</TableCell>
-                                    <TableCell align="center">{row.isPrior? <span>✓</span>: ' '}</TableCell>
+                                    <TableCell align="center">{row.importance? <span>✓</span>: ' '}</TableCell>
+                                    <TableCell align="center">{row.memo}</TableCell>
                                     <TableCell align="center">
                                         <IconButton aria-label="update" size="small">
                                             <UpdateIcon fontSize="inherit" />

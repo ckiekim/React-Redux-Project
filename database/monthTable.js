@@ -37,7 +37,7 @@ module.exports.monthTable = function(year, month, callback) {
                         wholeDays.push(day);
                     for (let day of nextDays)
                         wholeDays.push(day);
-                    callback(mapper(month, wholeDays));                
+                    mapper(month, wholeDays, callback);                
                 });
             });
         } else if (prevNumber == 0 && nextNumber != 0) {
@@ -47,7 +47,8 @@ module.exports.monthTable = function(year, month, callback) {
                     wholeDays.push(day);
                 for (let day of nextDays)
                     wholeDays.push(day);
-                callback(mapper(month, wholeDays));                
+                //callback(mapper(month, wholeDays));
+                mapper(month, wholeDays, callback);                
             });
         } else if (prevNumber != 0 && nextNumber == 0) {
             params = [prevYear, prevMonth, prevNumber];
@@ -57,36 +58,47 @@ module.exports.monthTable = function(year, month, callback) {
                     wholeDays.push(prevDays[i]);
                 for (let day of days)
                     wholeDays.push(day);
-                callback(mapper(month, wholeDays));                
+                mapper(month, wholeDays, callback);                
             });
         } else {
             for (let day of days)
                 wholeDays.push(day);
-            callback(mapper(month, wholeDays));
+            mapper(month, wholeDays, callback);
         }
     });
 
-    const mapper = function(month, wholeDays) {
-        let monthData = [];
-        let day, remark;
-        for (let i=0; i<wholeDays.length/7; i++) {
-            let week = [];
-            for (let k=0; k<7; k++) {
-                day = wholeDays[i * 7 + k];
-                remark = day.cMonth == month ? 0 : 2;
-                remark = day.holiday == 1 ? 1 : remark;
-                let clientFormat = {
-                    dow: day.dow,
-                    day: day.cDay,
-                    fullDay: day.fullDay,
-                    remark: remark,
-                    name: day.special,
-                    summary: []
+    const mapper = function(month, wholeDays, callback) {
+        let fromDay = wholeDays[0].fullDay;
+        let toDay = wholeDays[wholeDays.length-1].fullDay;
+        mm.getSummarySchedules([fromDay, toDay], function(schedules) {
+            let monthData = [];
+            let day, remark, schedule;
+            for (let i=0; i<wholeDays.length/7; i++) {
+                let week = [];
+                for (let k=0; k<7; k++) {
+                    day = wholeDays[i * 7 + k];
+                    let items = schedules.filter(schedules => day.fullDay == schedules.fullDay);
+                    let summary = [];
+                    for (let i=0; i<items.length; i++) {
+                        let str = `${items[i].st} ${items[i].title}`;
+                        summary.push(str)
+                    }
+                    //console.log(summary);
+                    remark = day.cMonth == month ? 0 : 2;
+                    remark = day.holiday == 1 ? 1 : remark;
+                    let clientFormat = {
+                        dow: day.dow,
+                        day: day.cDay,
+                        fullDay: day.fullDay,
+                        remark: remark,
+                        name: day.special,
+                        summary: summary
+                    }
+                    week.push(clientFormat);    
                 }
-                week.push(clientFormat);
+                monthData.push(week);
             }
-            monthData.push(week);
-        }
-        return(monthData);
+            callback(monthData);
+        });
     };
 }

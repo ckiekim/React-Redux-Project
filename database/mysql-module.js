@@ -57,6 +57,30 @@ module.exports = {
         });
         conn.end();
     },
+    getSchedulesByDay:  function(params, callback) {
+        const conn = this.getConnection();
+        const sql = `select title, place, importance, DATE_FORMAT(startDayTime, '%Y-%m-%d %H:%i') AS startDayTime, DATE_FORMAT(endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, memo from schedule where fullDay = ?`;
+
+        conn.query(sql, params, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
+    getSummarySchedules:  function(params, callback) {
+        const conn = this.getConnection();
+        const sql = `select fullDay, title, DATE_FORMAT(startDayTime, '%H:%i') AS st from schedule where fullDay between ? and ?`;
+
+        conn.query(sql, params, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
     initCalendar:    function(params, callback) {
         const conn = this.getConnection();
         const sql = 'insert into calendar(fullDay, cYear, cMonth, cDay, dow, noWeek) values (?, ?, ?, ?, ?, ?)';
@@ -81,18 +105,7 @@ module.exports = {
         });
         conn.end();
     },
-    getCustomers:  function(callback) {
-        const conn = this.getConnection();
-        const sql = 'select * from customer where isDeleted = 0';   // DATE_FORMAT(createdDate, '%Y-%m-%d %T')
-
-        conn.query(sql, function(err, rows, fields) {
-            if (err)
-                console.log(err);
-            else
-                callback(rows);
-        });
-        conn.end();
-    },
+    
     addCustomer:    function(params, callback) {
         const conn = this.getConnection();
         const sql = 'insert into customer(image, name, birthday, gender, job) values (?, ?, ?, ?, ?)';
