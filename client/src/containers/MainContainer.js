@@ -12,7 +12,7 @@ export default connect(
 		error: state.pender.failure['CHANGE_MONTH']
 	}),
 	(dispatch) => ({
-		MonthActions: bindActionCreators(monthActions, dispatch),
+		MonthActions: bindActionCreators(monthActions, dispatch)
 	})
 )(Main);
 

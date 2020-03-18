@@ -46,6 +46,7 @@ export default function TopLeft(props) {
         setSearchResultOpen(true);
     }
 
+    console.log("TopLeft", props.badgeContent);
     return (
         <nav>    
             <AppBar position="absolute" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>

@@ -1,7 +1,17 @@
 import DaySchedule from '../components/DaySchedule';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as generalActions from '../modules/general';
 
 export default connect(
+    (state) => ({
+        dayData: state.general.dayData
+    }),
+    (dispatch) => ({
+        GeneralAction: bindActionCreators(generalActions, dispatch)
+    })
+)(DaySchedule);
+/* export default connect(
     function(state) {
         let dayData;
         if (state.mode === 'READ') {
@@ -20,4 +30,4 @@ export default connect(
             }
         };
     }
-)(DaySchedule);
+)(DaySchedule); */

@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get('/api/calendar/:yearMonth', (req, res) => {
     let year = parseInt(req.params.yearMonth.substring(0,4));
     let month = parseInt(req.params.yearMonth.substring(4));
+    console.log('server', year, month);
     mt.monthTable(year, month, function(table) {
         res.send(table);
     });

@@ -1,8 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender';
 import axios from 'axios';
-import m3 from '../tmp/month202003';
-import m4 from '../tmp/month202004';
+//import m3 from '../tmp/month202003';
+//import m4 from '../tmp/month202004';
 
 function getCalendarAPI(yearMonth) {
     return axios.get(`/api/calendar/${yearMonth}`);

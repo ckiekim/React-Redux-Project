@@ -61,7 +61,7 @@ export default function Main(props) {
         console.log('useEffect()', year, month);
         let yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
         getCalendar(yearMonth);
-    }, []);
+    }, [month]);
 
     return (
         <main className={classes.content}>
@@ -97,13 +97,15 @@ export default function Main(props) {
                                 <DayOfWeek dow={value}/>
                             </GridListTile>
                         ))} 
-                        {monthData.map(week => (
-                            week.map(day => (
-                                <GridListTile key={day.day} rows={3}>
-                                    <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
-                                </GridListTile>
-                            ))
-                        ))}
+                        {monthData ? 
+                            monthData.map(week => (
+                                week.map(day => (
+                                    <GridListTile key={day.day} rows={3}>
+                                        <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
+                                    </GridListTile>
+                                ))
+                            )) : ''
+                        }
                     </GridList>
                 </div>                
                 <Box pt={0}>
