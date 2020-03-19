@@ -1,16 +1,20 @@
 import DaySchedule from '../components/DaySchedule';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as generalActions from '../modules/general';
+import * as dateActions from '../modules/date';
 
 export default connect(
     (state) => ({
-        dayData: state.general.dayData
+        date: state.date.date,
+        dayData: state.date.dayData,
+        loading: state.pender.pending['GET_DATE'],
+        error: state.pender.failure['GET_DATE']
     }),
     (dispatch) => ({
-        GeneralAction: bindActionCreators(generalActions, dispatch)
+        DateActions: bindActionCreators(dateActions, dispatch)
     })
 )(DaySchedule);
+
 /* export default connect(
     function(state) {
         let dayData;

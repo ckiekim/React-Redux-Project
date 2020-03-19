@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-//import DaySchedule from './DaySchedule';
 import DayScheduleContainer from '../containers/DayScheduleContainer';
 
 const myStyles = makeStyles(theme => ({

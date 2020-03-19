@@ -57,9 +57,21 @@ module.exports = {
         });
         conn.end();
     },
+    getOneDay:  function(params, callback) {
+        const conn = this.getConnection();
+        const sql = 'select * from calendar where fullDay = ?';
+
+        conn.query(sql, params, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
     getSchedulesByDay:  function(params, callback) {
         const conn = this.getConnection();
-        const sql = `select title, place, importance, DATE_FORMAT(startDayTime, '%Y-%m-%d %H:%i') AS startDayTime, DATE_FORMAT(endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, memo from schedule where fullDay = ?`;
+        const sql = `select sid, title, place, importance, DATE_FORMAT(startDayTime, '%Y-%m-%d %H:%i') AS startDayTime, DATE_FORMAT(endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, memo from schedule where fullDay = ? order by startDayTime`;
 
         conn.query(sql, params, function(err, rows, fields) {
             if (err)
@@ -71,7 +83,7 @@ module.exports = {
     },
     getSummarySchedules:  function(params, callback) {
         const conn = this.getConnection();
-        const sql = `select fullDay, title, DATE_FORMAT(startDayTime, '%H:%i') AS st from schedule where fullDay between ? and ?`;
+        const sql = `select fullDay, title, DATE_FORMAT(startDayTime, '%H:%i') AS st from schedule where fullDay between ? and ? order by startDayTime`;
 
         conn.query(sql, params, function(err, rows, fields) {
             if (err)
@@ -93,28 +105,14 @@ module.exports = {
         });
         conn.end();
     },
-    getCustomerById:    function(id, callback) {
+    addSchedule:    function(params, callback) {
         const conn = this.getConnection();
-        const sql = 'select * from customer where id = ?';   // DATE_FORMAT(createdDate, '%Y-%m-%d %T')
-
-        conn.query(sql, id, function(err, row, fields) {
-            if (err)
-                console.log(err);
-            else
-                callback(row);
-        });
-        conn.end();
-    },
-    
-    addCustomer:    function(params, callback) {
-        const conn = this.getConnection();
-        const sql = 'insert into customer(image, name, birthday, gender, job) values (?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO schedule(title, place, fullDay, startDayTime, endDayTime, importance, memo) values (?, ?, ?, ?, ?, ?, ?)';
 
         conn.query(sql, params, function(err, result) {
             if (err)
                 console.log(err);
             else {
-                //console.log('addCustomer(),', result);
                 callback();
             }
         });

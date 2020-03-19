@@ -5,11 +5,12 @@ import * as monthActions from '../modules/month';
 
 export default connect(
     (state) => ({ 
+        refresh: state.month.refresh,
 		year: state.month.year,
 		month: state.month.month,
         monthData: state.month.monthData,
-		loading: state.pender.pending['CHANGE_MONTH'],
-		error: state.pender.failure['CHANGE_MONTH']
+		loading: state.pender.pending['GET_CALENDAR'],
+		error: state.pender.failure['GET_CALENDAR']
 	}),
 	(dispatch) => ({
 		MonthActions: bindActionCreators(monthActions, dispatch)

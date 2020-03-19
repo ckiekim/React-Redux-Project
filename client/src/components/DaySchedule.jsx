@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,10 +16,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-/* import dd from '../tmp/day';
-import d0316 from '../tmp/day20200316';
-import d0317 from '../tmp/day20200317'; */
-
 const myStyles = makeStyles(theme => ({
 	table: {
         minWidth: 800,
@@ -33,28 +29,37 @@ const myStyles = makeStyles(theme => ({
 
 export default function DaySchedule(props) {
     const myClasses = myStyles();
+    const { date, dayData, DateActions } = props;
     const [dayScheduleOpen, setDayScheduleOpen] = React.useState(false);
-    //const [todaySchedule, setTodaySchedule] = React.useState(dd.dayData);
     const handleClickOpen = () => {
         setDayScheduleOpen(true);
-        props.onChangeDate(props.fullDay);
-        /* if (props.fullDay === '20200316')
-            setTodaySchedule(d0316.dayData);
-        else if (props.fullDay === '20200317')
-            setTodaySchedule(d0317.dayData);
-        else
-            setTodaySchedule(dd.dayData); */
+        DateActions.changeDate(props.fullDay);
     };
     const handleClickClose = () => {
         setDayScheduleOpen(false);
     };
+    const getDate = async (fullDay) => {
+        console.log('getDate()', fullDay);
+        try {
+            await DateActions.getDate(fullDay);
+            console.log('DaySchedule: 요청이 완료된 후 실행됨');
+        } catch(e) {
+            console.log('DaySchedule: getDate() 에러 발생!!!');
+        }
+    };
+    useEffect(() => { 
+        if (date !== props.fullDay) 
+            return;
+        console.log('DaySchedule: useEffect()', date, props.fullDay);
+        getDate(date);
+    }, [date]);
 
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-    //console.log(props.dayData);
-    const size = props.dayData.schedule.length;
+    //console.log(dayData);
+    /* const size = dayData.schedule.length;
     let rows = [];
     for (let i=size; i<3; i++)
-        rows.push(i);
+        rows.push(i); */
     return (
         <span>
             <IconButton aria-label="menu" size="small" onClick={handleClickOpen}>
@@ -63,10 +68,12 @@ export default function DaySchedule(props) {
             <Dialog fullWidth={true} maxWidth="md" open={dayScheduleOpen} onClose={handleClickClose}>
                 <DialogTitle>일간 일정</DialogTitle>
                 <DialogContent>
-                    <Typography variant="h6" component="h6" color="textPrimary" gutterBottom>
-                        {props.dayData.date} ({dowName[props.dayData.dow]}) {props.dayData.name}
-                    </Typography>
-                    <Table className={myClasses.table} aria-label="simple table">
+                    {dayData ?
+                    (<Typography variant="h6" component="h6" color="textPrimary" gutterBottom>
+                        {dayData.date} ({dowName[dayData.dow]}) {dayData.name}
+                    </Typography>) : ''}
+                    {dayData ?
+                    (<Table className={myClasses.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>일정 이름</TableCell>
@@ -79,8 +86,8 @@ export default function DaySchedule(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {props.dayData.schedule.map(row => (
-                                <TableRow key={row.title}>
+                            {dayData.schedule.map(row => (
+                                <TableRow key={row.sid}>
                                     <TableCell component="th" scope="row">
                                         {row.title}
                                     </TableCell>
@@ -99,13 +106,14 @@ export default function DaySchedule(props) {
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            {rows.map(row => (
+                            {/* {rows.map(row => (
                                 <TableRow key={row}>
                                     <TableCell colSpan="7">&nbsp;</TableCell>
                                 </TableRow>
-                            ))}
+                            ))} */}
                         </TableBody>
-                    </Table>
+                    </Table>) : ''
+                    }
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClickClose} variant="contained" color="primary">

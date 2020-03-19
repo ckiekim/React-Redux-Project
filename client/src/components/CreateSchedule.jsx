@@ -18,7 +18,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    /* KeyboardTimePicker, */
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
@@ -31,6 +30,7 @@ const myStyles = makeStyles(theme => ({
 
 export default function CreateSchedule(props) {
     const myClasses = myStyles();
+    const { flag, ScheduleActions, MonthActions } = props;
     const time = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30',
                   '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
                   '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -39,7 +39,7 @@ export default function CreateSchedule(props) {
     const [formData, setFormData] = React.useState({
         title: '',
         option: false,
-        startDay: new Date(),
+        startDay: new Date().toISOString().substring(0, 10),
         startTime: '',
         endDay: null,
         endTime: '',
@@ -54,9 +54,8 @@ export default function CreateSchedule(props) {
         setFormData({...formData, ['option']:event.target.checked});
     };
     const handleDateChange = name => event => {
-        //event.preventDefault();
         let date = new Date(event);
-        let hour = Number(date.toTimeString().substring(0, 2));
+        let hour = Number(date.toTimeString().substring(0, 2)) + 9;     // TZ 해결
         let minute = Number(date.toTimeString().substring(3, 5));
         let index = hour * 2;
         index += minute >= 30 ? 2 : 1;
@@ -77,10 +76,20 @@ export default function CreateSchedule(props) {
     };
     const handleSubmit = event => {
         event.preventDefault();
-        //console.log(formData);
+        console.log(formData);
         setCreateScheduleOpen(false);
-        props.onSubmit(formData);
+        ScheduleActions.addSchedule(formData);
+        MonthActions.setRefresh();
     }
+    /* const addSchedule = async (formData) => {
+        console.log('formData()', formData);
+        try {
+            await ScheduleActions.addSchedule(formData);
+            console.log('DaySchedule: 요청이 완료된 후 실행됨');
+        } catch(e) {
+            console.log('DaySchedule: addSchedule() 에러 발생!!!');
+        }
+    }; */
 
     return (
         <span>
@@ -134,13 +143,6 @@ export default function CreateSchedule(props) {
                                 ))}
                             </Select>
                         </FormControl>
-                        {/* <KeyboardTimePicker
-                            margin="normal" id="endTime" label="종료시간" name="endTime" value={formData.endTime}
-                            onChange={handleDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change time',
-                            }}
-                        /> */}
                     </MuiPickersUtilsProvider>
                     <TextField label="장소" type="text" name="place" fullWidth onChange={handleChange}/>
                     <TextField label="설명" multiline rows="3" name="desc" type="text" fullWidth onChange={handleChange}/>

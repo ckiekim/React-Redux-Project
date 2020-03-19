@@ -16,11 +16,10 @@ import Copyright from './Copyright';
 import DayCard from './DayCard';
 import DayOfWeek from './DayOfWeek';
 import useStyles from './useStyles';
-import * as monthActions from '../modules/month';
 
 export default function Main(props) {
     const classes = useStyles();
-    const { year, month, monthData, loading, error, MonthActions } = props;
+    const { refresh, year, month, monthData, loading, error, MonthActions } = props;
     const handlePrevious = () => {
         let newYear = year;
         let newMonth = month - 1;
@@ -51,22 +50,22 @@ export default function Main(props) {
         console.log('getCalendar()', yearMonth);
         try {
             await MonthActions.getCalendar(yearMonth);
-            console.log('요청이 완료된 후 실행됨');
+            //console.log('요청이 완료된 후 실행됨');
         } catch(e) {
-            console.log('에러 발생!!!');
+            console.log('Main: getCalendar() 에러 발생!!!');
         }
     };
 
     useEffect(() => { 
-        console.log('useEffect()', year, month);
+        console.log('Main: useEffect()', year, month);
         let yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
         getCalendar(yearMonth);
-    }, [month]);
+    }, [refresh]);
 
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            {loading && <h2>로딩중</h2>}
+            {/* {loading && <h2>로딩중</h2>} */}
             {error ? <h1>에러발생!!!</h1> : (
             <Container maxWidth="lg" className={classes.container}>
                 <Toolbar className={classes.toolbar}>
