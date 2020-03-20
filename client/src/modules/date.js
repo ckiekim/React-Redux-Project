@@ -12,6 +12,7 @@ export const changeDate = createAction(CHANGE_DATE);
 export const getDate = createAction(GET_DATE, getDateAPI);
 
 const initialState = {
+    dateRefresh: false,
     date: new Date().toISOString().substring(0, 10).replace(/-/g,''),
     dayData : null
 }
@@ -19,13 +20,13 @@ const initialState = {
 export default handleActions({
     [CHANGE_DATE]: (state, action) => {
         //console.log(action.payload);
-        return { ...state, date:action.payload };
+        return { ...state, dateRefresh:true, date:action.payload };
     },
     ...pender({
         type: GET_DATE,
         onSuccess: (state, action) => {
             const dayData = action.payload.data;
-            return { ...state, dayData }
+            return { ...state, dateRefresh:false, dayData }
         }
     })
 }, initialState);

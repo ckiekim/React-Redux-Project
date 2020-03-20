@@ -15,6 +15,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import CreateScheduleFromModal from './CreateScheduleFromModal';
 
 const myStyles = makeStyles(theme => ({
 	table: {
@@ -29,7 +30,7 @@ const myStyles = makeStyles(theme => ({
 
 export default function DaySchedule(props) {
     const myClasses = myStyles();
-    const { date, dayData, DateActions } = props;
+    const { fullDay, dateRefresh, date, dayData, DateActions, GeneralActions } = props;
     const [dayScheduleOpen, setDayScheduleOpen] = React.useState(false);
     const handleClickOpen = () => {
         setDayScheduleOpen(true);
@@ -38,28 +39,34 @@ export default function DaySchedule(props) {
     const handleClickClose = () => {
         setDayScheduleOpen(false);
     };
+    /* const handleClickAdd = () => {
+        setDayScheduleOpen(false);
+        return <CreateScheduleContainer/>
+    }; */
+
     const getDate = async (fullDay) => {
-        console.log('getDate()', fullDay);
+        //console.log('getDate()', fullDay);
         try {
             await DateActions.getDate(fullDay);
-            console.log('DaySchedule: 요청이 완료된 후 실행됨');
+            //console.log('DaySchedule: 요청이 완료된 후 실행됨');
         } catch(e) {
             console.log('DaySchedule: getDate() 에러 발생!!!');
         }
     };
     useEffect(() => { 
-        if (date !== props.fullDay) 
+        if (date !== fullDay) 
             return;
         console.log('DaySchedule: useEffect()', date, props.fullDay);
         getDate(date);
-    }, [date]);
+        let today = new Date().toISOString().substring(0,10).replace(/-/g,'');
+        if (date === today) {
+            //console.log(dayData);
+            if (dayData !== null)
+                GeneralActions.changeBadge(dayData.schedule.length); 
+        }
+    }, [dateRefresh]);
 
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-    //console.log(dayData);
-    /* const size = dayData.schedule.length;
-    let rows = [];
-    for (let i=size; i<3; i++)
-        rows.push(i); */
     return (
         <span>
             <IconButton aria-label="menu" size="small" onClick={handleClickOpen}>
@@ -73,52 +80,48 @@ export default function DaySchedule(props) {
                         {dayData.date} ({dowName[dayData.dow]}) {dayData.name}
                     </Typography>) : ''}
                     {dayData ?
-                    (<Table className={myClasses.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>일정 이름</TableCell>
-                                <TableCell>장소</TableCell>
-                                <TableCell align="center">시작시간</TableCell>
-                                <TableCell align="center">종료시간</TableCell>
-                                <TableCell align="center">중요</TableCell>
-                                <TableCell align="center">메모</TableCell>
-                                <TableCell align="center">비고</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {dayData.schedule.map(row => (
-                                <TableRow key={row.sid}>
-                                    <TableCell component="th" scope="row">
-                                        {row.title}
-                                    </TableCell>
-                                    <TableCell>{row.place}</TableCell>
-                                    <TableCell align="center">{row.startDayTime}</TableCell>
-                                    <TableCell align="center">{row.endDayTime}</TableCell>
-                                    <TableCell align="center">{row.importance? <span>✓</span>: ' '}</TableCell>
-                                    <TableCell align="center">{row.memo}</TableCell>
-                                    <TableCell align="center">
-                                        <IconButton aria-label="update" size="small">
-                                            <UpdateIcon fontSize="inherit" />
-                                        </IconButton>
-                                        <IconButton aria-label="delete" size="small">
-                                            <DeleteIcon fontSize="inherit" />
-                                        </IconButton>
-                                    </TableCell>
+                        (<Table className={myClasses.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>일정 이름</TableCell>
+                                    <TableCell>장소</TableCell>
+                                    <TableCell align="center">시작시간</TableCell>
+                                    <TableCell align="center">종료시간</TableCell>
+                                    <TableCell align="center">중요</TableCell>
+                                    <TableCell align="center">메모</TableCell>
+                                    <TableCell align="center">비고</TableCell>
                                 </TableRow>
-                            ))}
-                            {/* {rows.map(row => (
-                                <TableRow key={row}>
-                                    <TableCell colSpan="7">&nbsp;</TableCell>
-                                </TableRow>
-                            ))} */}
-                        </TableBody>
-                    </Table>) : ''
+                            </TableHead>
+                            <TableBody>
+                                {dayData.schedule.map(row => (
+                                    <TableRow key={row.sid}>
+                                        <TableCell component="th" scope="row">
+                                            {row.title}
+                                        </TableCell>
+                                        <TableCell>{row.place}</TableCell>
+                                        <TableCell align="center">{row.startDayTime}</TableCell>
+                                        <TableCell align="center">{row.endDayTime}</TableCell>
+                                        <TableCell align="center">{row.importance===1? <span>✓</span>: ' '}</TableCell>
+                                        <TableCell align="center">{row.memo}</TableCell>
+                                        <TableCell align="center">
+                                            <IconButton aria-label="update" size="small">
+                                                <UpdateIcon fontSize="inherit" />
+                                            </IconButton>
+                                            <IconButton aria-label="delete" size="small">
+                                                <DeleteIcon fontSize="inherit" />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>) : ''
                     }
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClickClose} variant="contained" color="primary">
+                    {/* <CreateScheduleFromModal /> */}
+                    {/* <Button onClick={handleClickAdd} variant="contained" color="primary">
                         추가
-                    </Button>
+                    </Button> */}
                     <Button onClick={handleClickClose} variant="outlined" color="primary">
                         닫기
                     </Button>

@@ -14,7 +14,7 @@ export const changeMonth = createAction(CHANGE_MONTH);
 export const getCalendar = createAction(GET_CALENDAR, getCalendarAPI);
 
 const initialState = {
-    refresh: false,
+    monthRefresh: false,
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     monthData : null
@@ -22,18 +22,18 @@ const initialState = {
 
 export default handleActions({
     [SET_REFRESH]: (state, action) => {
-        return { ...state, refresh:true }
+        return { ...state, monthRefresh:true }
     },
     [CHANGE_MONTH]: (state, action) => {
         console.log(action.payload);
         const { year, month } = action.payload;
-        return { ...state, refresh:true, year, month };
+        return { ...state, monthRefresh:true, year, month };
     },
     ...pender({
         type: GET_CALENDAR,
         onSuccess: (state, action) => {
             const monthData = action.payload.data;
-            return { ...state, refresh:false, monthData }
+            return { ...state, monthRefresh:false, monthData }
         }
     })
 }, initialState);

@@ -9,7 +9,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Button from '@material-ui/core/Button';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import PrintIcon from '@material-ui/icons/Print';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import CreateScheduleContainer from '../containers/CreateScheduleContainer';
 import Copyright from './Copyright';
@@ -19,7 +19,7 @@ import useStyles from './useStyles';
 
 export default function Main(props) {
     const classes = useStyles();
-    const { refresh, year, month, monthData, loading, error, MonthActions } = props;
+    const { monthRefresh, year, month, monthData, loading, error, MonthActions } = props;
     const handlePrevious = () => {
         let newYear = year;
         let newMonth = month - 1;
@@ -60,7 +60,7 @@ export default function Main(props) {
         console.log('Main: useEffect()', year, month);
         let yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
         getCalendar(yearMonth);
-    }, [refresh]);
+    }, [monthRefresh]);
 
     return (
         <main className={classes.content}>
@@ -85,7 +85,7 @@ export default function Main(props) {
                     <div>
                         <CreateScheduleContainer/>
                         <IconButton aria-label="print">
-                            <PrintIcon />
+                            <ListAltIcon />
                         </IconButton>
                     </div>
                 </Toolbar>

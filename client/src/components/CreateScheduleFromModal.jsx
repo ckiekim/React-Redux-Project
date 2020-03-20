@@ -28,9 +28,9 @@ const myStyles = makeStyles(theme => ({
     },
   }));
 
-export default function CreateSchedule(props) {
+export default function CreateScheduleFromModal(props) {
     const myClasses = myStyles();
-    const { flag, ScheduleActions, MonthActions } = props;
+    /* const { flag, ScheduleActions, MonthActions } = props; */
     const time = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30',
                   '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
                   '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -44,7 +44,7 @@ export default function CreateSchedule(props) {
         endDay: null,
         endTime: '',
         place: '',
-        memo: ''
+        desc: ''
     });
 
     const handleChange = event => {
@@ -55,7 +55,6 @@ export default function CreateSchedule(props) {
     };
     const handleDateChange = name => event => {
         let date = new Date(event);
-        //console.log(date.toTimeString());
         let hour = Number(date.toTimeString().substring(0, 2)) + 9;     // TZ 해결
         let minute = Number(date.toTimeString().substring(3, 5));
         let index = hour * 2;
@@ -84,20 +83,18 @@ export default function CreateSchedule(props) {
     };
     const handleSubmit = event => {
         event.preventDefault();
-        console.log(formData);
+        /* console.log(formData);
         setCreateScheduleOpen(false);
         ScheduleActions.addSchedule(formData);
-        setFormData({...formData, ['title']:'', ['option']:false, 
-                    ['startDay']:new Date().toISOString().substring(0, 10), ['startTime']:'',
-                    ['endDay']:null, ['endTime']:'', ['place']:'', ['memo']:''})
-        MonthActions.setRefresh();
+        MonthActions.setRefresh(); */
     }
 
     return (
         <span>
-            <IconButton aria-label="create" onClick={handleClickOpen}>
-                <CreateIcon />
-            </IconButton>
+            <Button onClick={handleClickOpen} variant="contained" color="primary">
+                추가
+            </Button>
+            
             <Dialog open={createScheduleOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">일정 추가</DialogTitle>
                 <DialogContent>
@@ -147,7 +144,7 @@ export default function CreateSchedule(props) {
                         </FormControl>
                     </MuiPickersUtilsProvider>
                     <TextField label="장소" type="text" name="place" fullWidth onChange={handleChange}/>
-                    <TextField label="메모" multiline rows="3" name="memo" type="text" fullWidth onChange={handleChange}/>
+                    <TextField label="설명" multiline rows="3" name="desc" type="text" fullWidth onChange={handleChange}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleSubmit} variant="contained" color="primary">

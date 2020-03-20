@@ -25,16 +25,39 @@ app.get('/api/day/:fullDay', (req, res) => {
     });
 });
 app.post('/api/schedule', (req, res) => {
-    console.log('server /api/schedule');
+    console.log('server post /api/schedule');
+    let title = req.body.title;
+    let place = req.body.place;
+    let fullDay = req.body.startDay.replace(/-/g, '');
+    let startDayTime = `${req.body.startDay} ${req.body.startTime}:00`;
+    let endDayTime = `${req.body.endDay} ${req.body.endTime}:00`;
+    let importance = req.body.option === 'true' ? 1 : 0;
+    console.log(req.body.option, importance);
+    let memo = req.body.memo;
+    let params = [title, place, fullDay, startDayTime, endDayTime, importance, memo];
+    mm.addSchedule(params, function() {
+        res.send('OK');
+    });
+});
+app.patch('/api/schedule/:sid', (req, res) => {
+    let sid = parseInt(req.params.sid);
+    console.log(`server patch /api/schedule/${sid}`);
     let title = req.body.title;
     let place = req.body.place;
     let fullDay = req.body.startDay.replace(/-/g, '');
     let startDayTime = `${req.body.startDay} ${req.body.startTime}:00`;
     let endDayTime = `${req.body.endDay} ${req.body.endTime}:00`;
     let importance = req.body.option ? 1 : 0;
-    let memo = req.body.place;
-    let params = [title, place, fullDay, startDayTime, endDayTime, importance, memo];
-    mm.addSchedule(params, function() {
+    let memo = req.body.memo;
+    let params = [title, place, fullDay, startDayTime, endDayTime, importance, memo, sid];
+    mm.updateSchedule(params, () => {
+        res.send('OK');
+    });
+});
+app.delete('/api/schedule/:sid', (req, res) => {
+    let sid = parseInt(req.params.sid);
+    console.log(`server delete /api/schedule/${sid}`);
+    mm.deleteSchedule(sid, () => {
         res.send('OK');
     });
 });

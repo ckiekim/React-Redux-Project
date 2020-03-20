@@ -118,9 +118,9 @@ module.exports = {
         });
         conn.end();
     },
-    deleteCustomer: function(id, callback) {
+    deleteSchedule: function(sid, callback) {
         const conn = this.getConnection();
-        const sql = 'update customer set isDeleted=1 where id = ?';
+        const sql = 'delete from schedule sid = ?';
 
         conn.query(sql, id, function(err, result) {
             if (err)
@@ -130,9 +130,9 @@ module.exports = {
         });
         conn.end();
     },
-    updateCustomer: function(params, callback) {
+    updateSchedule: function(params, callback) {
         const conn = this.getConnection();
-        const sql = 'update customer set image=?, name=?, birthday=?, gender=?, job=? where id = ?';
+        const sql = 'update schedule set title=?, place=?, fullDay=?, startDayTime=?, endDayTime=?, importance=?, memo=? where sid = ?';
 
         conn.query(sql, params, function(err, result) {
             if (err)
