@@ -24,9 +24,12 @@ mm.getSchedulesByDay('20200320', function(rows) {
     console.log(rows);
 }); */
 
-dt.dayTable('20200327', function(dayTable) {
+/* dt.dayTable('20200327', function(dayTable) {
     console.log(dayTable);
 });
 
 console.log(new Date().toISOString().substring(0, 10).replace(/-/g,''));
-console.log(new Date().toLocaleTimeString());
+console.log(new Date().toLocaleTimeString()); */
+mm.getScheduleList('2020-04-03', function(rows) {
+    console.log(rows);
+});

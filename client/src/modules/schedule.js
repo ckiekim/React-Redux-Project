@@ -3,6 +3,9 @@ import { pender } from 'redux-pender';
 import axios from 'axios';
 const qs = require('querystring');
 
+function getScheduleListAPI(fromDay) {
+    return axios.get(`/api/scheduleList/${fromDay}`);
+}
 function postScheduleAPI(formData) {
     //console.log(formData);
     const config = {
@@ -13,34 +16,34 @@ function postScheduleAPI(formData) {
     return axios.post('/api/schedule', qs.stringify(formData), config);
 }
 
-const CHANGE_FLAG = 'CHANGE_FLAG';
+const SET_LIST_REFRESH = 'SET_LIST_REFRESH';
+const GET_SCHEDULE_LIST = 'GET_SCHEDULE_LIST';
 const ADD_SCHEDULE = 'ADD_SCHEDULE';
-export const changeFlag = createAction(CHANGE_FLAG);
+export const setListRefresh = createAction(SET_LIST_REFRESH);
+export const getScheduleList = createAction(GET_SCHEDULE_LIST, getScheduleListAPI);
 export const addSchedule = createAction(ADD_SCHEDULE, postScheduleAPI);
 
 const initialState = {
-    flag: false
-    /* formData: {
-        title: '', 
-        option: false, 
-        startDay: new Date(), 
-        startTime: '',
-        endDay: null, 
-        endTime: '', 
-        place: '', 
-        memo: ''
-    } */
+    listRefresh: false,
+    scheduleList: null
 }
 
 export default handleActions({
-    [CHANGE_FLAG]: (state, action) => {
-        //console.log(action.payload);
-        return { ...state, flag:true };
+    [SET_LIST_REFRESH]: (state, action) => {
+        return { ...state, listRefresh:true };
     },
+    ...pender({
+        type: GET_SCHEDULE_LIST,
+        onSuccess: (state, action) => {
+            const scheduleList = action.payload.data;
+            //console.log(action.payload);
+            return { ...state, listRefresh:false, scheduleList }
+        }
+    }),
     ...pender({
         type: ADD_SCHEDULE,
         onSuccess: (state, action) => {
-            return { ...state }
+            return { ...state, listRefresh:true }
         }
     })
 }, initialState);

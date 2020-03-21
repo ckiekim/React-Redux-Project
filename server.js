@@ -24,6 +24,13 @@ app.get('/api/day/:fullDay', (req, res) => {
         res.send(dayTable);
     });
 });
+app.get('/api/scheduleList/:fromDay', (req, res) => {
+    console.log(`server /api/scheduleList/${req.params.fromDay}`);
+    let fromDay = req.params.fromDay;
+    mm.getScheduleList(fromDay, function(scheduleList) {
+        res.send(scheduleList);
+    });
+});
 app.post('/api/schedule', (req, res) => {
     console.log('server post /api/schedule');
     let title = req.body.title;

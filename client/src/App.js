@@ -4,6 +4,7 @@ import './App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TopLeft from './components/TopLeft';
 import MainContainer from './containers/MainContainer';
+import ScheduleListContainer from './containers/ScheduleListContainer';
 
 import { bindActionCreators } from 'redux';
 import * as generalActions from './modules/general';
@@ -28,19 +29,23 @@ class App extends Component {
     }; */
 
 	render() {
-		const { badgeContent } = this.props;
+		const { mode, badgeContent } = this.props;
 		return (
 			<div style={{ display: 'flex'}}>
 				<CssBaseline />
 				<TopLeft badgeContent={badgeContent} />
-				<MainContainer />
+				{mode === 'GRID' ?
+					<MainContainer /> :
+					<ScheduleListContainer />
+				}
 			</div>
 		);
 	}
 }
 
 export default connect(
-	(state) => ({ 
+	(state) => ({
+		mode: state.general.mode,
 		year: state.month.year,
 		month: state.month.month,
 		badgeContent: state.general.badgeContent

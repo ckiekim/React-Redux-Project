@@ -71,7 +71,9 @@ module.exports = {
     },
     getSchedulesByDay:  function(params, callback) {
         const conn = this.getConnection();
-        const sql = `select sid, title, place, importance, DATE_FORMAT(startDayTime, '%Y-%m-%d %H:%i') AS startDayTime, DATE_FORMAT(endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, memo from schedule where fullDay = ? order by startDayTime`;
+        const sql = `select sid, title, place, importance, DATE_FORMAT(startDayTime, '%Y-%m-%d %H:%i') AS startDayTime,
+                     DATE_FORMAT(endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, memo from schedule
+                     where fullDay = ? order by startDayTime`;
 
         conn.query(sql, params, function(err, rows, fields) {
             if (err)
@@ -83,7 +85,27 @@ module.exports = {
     },
     getSummarySchedules:  function(params, callback) {
         const conn = this.getConnection();
-        const sql = `select fullDay, title, DATE_FORMAT(startDayTime, '%H:%i') AS st from schedule where fullDay between ? and ? order by startDayTime`;
+        const sql = `select fullDay, title, DATE_FORMAT(startDayTime, '%H:%i') AS st
+                     from schedule where fullDay between ? and ? order by startDayTime`;
+
+        conn.query(sql, params, function(err, rows, fields) {
+            if (err)
+                console.log(err);
+            else
+                callback(rows);
+        });
+        conn.end();
+    },
+    getScheduleList: function(params, callback) {
+        const conn = this.getConnection();
+        const sql = `SELECT s.sid, DATE_FORMAT(s.startDayTime, '%Y-%m-%d') AS date, 
+            c.dow, c.holiday AS remark, a.aName AS NAME, a.aName AS NAME, 
+            s.title, s.place, DATE_FORMAT(s.startDayTime, '%Y-%m-%d %H:%i') AS startDayTime,
+            DATE_FORMAT(s.endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, s.importance, s.memo
+            FROM schedule AS s
+            inner JOIN calendar AS c ON s.fullDay=c.fullDay
+            left JOIN anniversary AS a ON s.fullDay=a.fullDay
+            WHERE s.startDayTime >= ? ORDER BY s.startDayTime LIMIT 20`;
 
         conn.query(sql, params, function(err, rows, fields) {
             if (err)
@@ -107,7 +129,8 @@ module.exports = {
     },
     addSchedule:    function(params, callback) {
         const conn = this.getConnection();
-        const sql = 'INSERT INTO schedule(title, place, fullDay, startDayTime, endDayTime, importance, memo) values (?, ?, ?, ?, ?, ?, ?)';
+        const sql = `INSERT INTO schedule(title, place, fullDay, startDayTime, endDayTime, importance, memo)
+                     values (?, ?, ?, ?, ?, ?, ?)`;
 
         conn.query(sql, params, function(err, result) {
             if (err)
@@ -132,7 +155,8 @@ module.exports = {
     },
     updateSchedule: function(params, callback) {
         const conn = this.getConnection();
-        const sql = 'update schedule set title=?, place=?, fullDay=?, startDayTime=?, endDayTime=?, importance=?, memo=? where sid = ?';
+        const sql = `update schedule set title=?, place=?, fullDay=?, startDayTime=?, endDayTime=?, importance=?, memo=?
+                     where sid = ?`;
 
         conn.query(sql, params, function(err, result) {
             if (err)

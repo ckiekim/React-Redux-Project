@@ -19,7 +19,7 @@ import useStyles from './useStyles';
 
 export default function Main(props) {
     const classes = useStyles();
-    const { monthRefresh, year, month, monthData, loading, error, MonthActions } = props;
+    const { monthRefresh, year, month, monthData, loading, error, GeneralActions, MonthActions } = props;
     const handlePrevious = () => {
         let newYear = year;
         let newMonth = month - 1;
@@ -45,6 +45,9 @@ export default function Main(props) {
         }
         MonthActions.changeMonth({year:newYear, month:newMonth});
     };
+    const handleMode = () => {
+        GeneralActions.changeMode('LIST');
+    }
 
     const getCalendar = async (yearMonth) => {
         console.log('getCalendar()', yearMonth);
@@ -84,7 +87,7 @@ export default function Main(props) {
                     <div className={classes.grow} />
                     <div>
                         <CreateScheduleContainer/>
-                        <IconButton aria-label="print">
+                        <IconButton aria-label="mode" onClick={handleMode}>
                             <ListAltIcon />
                         </IconButton>
                     </div>

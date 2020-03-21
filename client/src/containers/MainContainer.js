@@ -1,7 +1,10 @@
 import Main from '../components/Main';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as generalActions from '../modules/general';
 import * as monthActions from '../modules/month';
+import * as scheduleActions from '../modules/schedule';
+
 
 export default connect(
     (state) => ({ 
@@ -13,7 +16,9 @@ export default connect(
 		error: state.pender.failure['GET_CALENDAR']
 	}),
 	(dispatch) => ({
-		MonthActions: bindActionCreators(monthActions, dispatch)
+		GeneralActions: bindActionCreators(generalActions, dispatch),
+		MonthActions: bindActionCreators(monthActions, dispatch),
+		ScheduleActions: bindActionCreators(scheduleActions, dispatch)
 	})
 )(Main);
 
