@@ -24,7 +24,7 @@ export default function DeleteSchedule(props) {
 
     return (
         <span>
-            <IconButton aria-label="menu" size="small" onClick={handleClickOpen}>
+            <IconButton aria-label="delete" size="small" onClick={handleClickOpen}>
                     <DeleteIcon fontSize="inherit" />
             </IconButton>	
             <Dialog fullWidth={true} maxWidth="sm" open={deleteScheduleOpen} onClose={handleClickClose}>

@@ -15,7 +15,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import CreateScheduleFromModal from './CreateScheduleFromModal';
 
 const myStyles = makeStyles(theme => ({
 	table: {
@@ -30,7 +29,7 @@ const myStyles = makeStyles(theme => ({
 
 export default function DaySchedule(props) {
     const myClasses = myStyles();
-    const { fullDay, dateRefresh, date, dayData, DateActions, GeneralActions } = props;
+    const { today, fullDay, dateRefresh, date, dayData, DateActions, GeneralActions } = props;
     const [dayScheduleOpen, setDayScheduleOpen] = React.useState(false);
     const handleClickOpen = () => {
         setDayScheduleOpen(true);
@@ -39,10 +38,6 @@ export default function DaySchedule(props) {
     const handleClickClose = () => {
         setDayScheduleOpen(false);
     };
-    /* const handleClickAdd = () => {
-        setDayScheduleOpen(false);
-        return <CreateScheduleContainer/>
-    }; */
 
     const getDate = async (fullDay) => {
         //console.log('getDate()', fullDay);
@@ -58,13 +53,7 @@ export default function DaySchedule(props) {
             return;
         console.log('DaySchedule: useEffect()', date, props.fullDay);
         getDate(date);
-        let tmp = new Date().toLocaleDateString().replace(/\./g, '').split(' ');
-        let ym = tmp[1].length===1 ? tmp[0]+'0'+tmp[1] : tmp[0]+tmp[1];
-        let today = tmp[2].length===1 ? ym+'0'+tmp[2] : ym+tmp[2];
-        //let today = new Date().toISOString().substring(0,10).replace(/-/g,'');
-        console.log(date, today);
-        if (date === today) {
-            //console.log(dayData);
+        if (date === today.replace(/-/g, '')) {
             if (dayData !== null)
                 GeneralActions.changeBadge(dayData.schedule.length); 
         }
@@ -93,7 +82,6 @@ export default function DaySchedule(props) {
                                     <TableCell align="center">종료시간</TableCell>
                                     <TableCell align="center">중요</TableCell>
                                     <TableCell align="center">메모</TableCell>
-                                    <TableCell align="center">비고</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -107,14 +95,6 @@ export default function DaySchedule(props) {
                                         <TableCell align="center">{row.endDayTime}</TableCell>
                                         <TableCell align="center">{row.importance===1? <span>✓</span>: ' '}</TableCell>
                                         <TableCell align="center">{row.memo}</TableCell>
-                                        <TableCell align="center">
-                                            <IconButton aria-label="update" size="small">
-                                                <UpdateIcon fontSize="inherit" />
-                                            </IconButton>
-                                            <IconButton aria-label="delete" size="small">
-                                                <DeleteIcon fontSize="inherit" />
-                                            </IconButton>
-                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -122,10 +102,6 @@ export default function DaySchedule(props) {
                     }
                 </DialogContent>
                 <DialogActions>
-                    {/* <CreateScheduleFromModal /> */}
-                    {/* <Button onClick={handleClickAdd} variant="contained" color="primary">
-                        추가
-                    </Button> */}
                     <Button onClick={handleClickClose} variant="outlined" color="primary">
                         닫기
                     </Button>

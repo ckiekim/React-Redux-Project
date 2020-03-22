@@ -14,31 +14,47 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
-import UpdateIcon from '@material-ui/icons/Update';
 import CreateScheduleContainer from '../containers/CreateScheduleContainer';
+import UpdateScheduleContainer from '../containers/UpdateScheduleContainer';
 import DeleteScheduleContainer from '../containers/DeleteScheduleContainer';
 import Copyright from './Copyright';
 import useStyles from './useStyles';
 
 export default function ScheduleList(props) {
     const classes = useStyles();
-    const { today, listRefresh, scheduleList, loading, error, GeneralActions, ScheduleActions } = props;
+    const { today, listRefresh, fromDay, slYear, slMonth, scheduleList, loading, error, GeneralActions, ScheduleActions } = props;
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
 
-    const handle = () => {
-
+    const handlePrevious = () => {
+        let newYear = slYear;
+        let newMonth = slMonth - 1;
+        if (newMonth < 1) {
+            newYear--;
+            newMonth = 12;
+        }
+        let fd = newMonth > 9 ? `${newYear}-${newMonth}-01` : `${newYear}-0${newMonth}-01`;
+        ScheduleActions.changeMonth({fromDay:fd, slYear:newYear, slMonth:newMonth});
+    };
+    const handleThisMonth = () => {
+        let newYear = new Date().getFullYear();
+        let newMonth = new Date().getMonth() + 1;
+        if (slYear !== newYear || slMonth !== newMonth) {
+            ScheduleActions.changeMonth({fromDay:today, slYear:newYear, slMonth:newMonth});
+        }
+    };
+    const handleNext = () => {
+        let newYear = slYear;
+        let newMonth = slMonth + 1;
+        if (newMonth > 12) {
+            newYear++;
+            newMonth = 1;
+        }
+        let fd = newMonth > 9 ? `${newYear}-${newMonth}-01` : `${newYear}-0${newMonth}-01`;
+        ScheduleActions.changeMonth({fromDay:fd, slYear:newYear, slMonth:newMonth});
     };
     const handleTitle = sid => e => {
         e.preventDefault();
         console.log('Title is pressed', sid);
-    };
-    const handleUpdate = sid => e => {
-        e.preventDefault();
-        console.log('Update is pressed', sid);
-    };
-    const handleDelete = sid => e => {
-        e.preventDefault();
-        console.log('Delete is pressed', sid);
     };
     const handleMode = () => {
         GeneralActions.changeMode('GRID');
@@ -58,7 +74,6 @@ export default function ScheduleList(props) {
     };
     useEffect(() => { 
         console.log('ScheduleList: useEffect()');
-        let fromDay = today;
         getScheduleList(fromDay);
     }, [listRefresh]);
   
@@ -67,14 +82,14 @@ export default function ScheduleList(props) {
             <div className={classes.appBarSpacer} />
             <Toolbar className={classes.toolbar}>
                 <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
-                    2020. 3
+                    {slYear}. {slMonth}
                 </Typography>
                 <div className={classes.iconButton}>
-                    <IconButton aria-label="previous" onClick={handle}>
+                    <IconButton aria-label="previous" onClick={handlePrevious}>
                         <ChevronLeftIcon />
                     </IconButton>
-                    <Button variant="outlined" onClick={handle}>금월</Button>
-                    <IconButton aria-label="next" onClick={handle}>
+                    <Button variant="outlined" onClick={handleThisMonth}>금월</Button>
+                    <IconButton aria-label="next" onClick={handleNext}>
                         <ChevronRightIcon />
                     </IconButton>
                 </div>
@@ -115,12 +130,9 @@ export default function ScheduleList(props) {
                                 <TableCell align="center">{item.endDayTime}</TableCell>
                                 <TableCell align="center">{item.importance===1? <span>✓</span>: ' '}</TableCell>
                                 <TableCell align="center">
-                                    <IconButton aria-label="update" size="small" onClick={handleUpdate(item.sid)}>
-                                        <UpdateIcon fontSize="inherit" />
-                                    </IconButton>
-                                    {/* <IconButton aria-label="delete" size="small" onClick={handleDelete(item.sid)}>
-                                        <DeleteIcon fontSize="inherit" />
-                                    </IconButton> */}
+                                    <UpdateScheduleContainer sid={item.sid} title={item.title} 
+                                                startDayTime={item.startDayTime} endDayTime={item.endDayTime} 
+                                                option={item.importance} place={item.place} memo={item.memo} />
                                     <DeleteScheduleContainer sid={item.sid} title={item.title} />
                                 </TableCell>
                             </TableRow>

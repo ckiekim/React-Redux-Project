@@ -9,6 +9,9 @@ export default connect(
         mode: state.general.mode,
         today: state.general.today,
         listRefresh: state.schedule.listRefresh,
+        fromDay: state.schedule.fromDay,
+        slYear: state.schedule.slYear,
+        slMonth: state.schedule.slMonth,
         scheduleList: state.schedule.scheduleList,
         loading: state.pender.pending['GET_SCHEDULE_LIST'],
         error: state.pender.failure['GET_SCHEDULE_LIST']

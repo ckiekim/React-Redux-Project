@@ -7,7 +7,6 @@ function getScheduleListAPI(fromDay) {
     return axios.get(`/api/scheduleList/${fromDay}`);
 }
 function postScheduleAPI(formData) {
-    //console.log(formData);
     const config = {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -16,6 +15,7 @@ function postScheduleAPI(formData) {
     return axios.post('/api/schedule', qs.stringify(formData), config);
 }
 function patchScheduleAPI(formData) {
+    //console.log(formData);
     let sid = formData.sid;
     const config = {
         headers: {
@@ -29,24 +29,33 @@ function deleteScheduleAPI(sid) {
 }
 
 const SET_LIST_REFRESH = 'SET_LIST_REFRESH';
+const CHANGE_MONTH = 'CHANGE_MONTH';
 const GET_SCHEDULE_LIST = 'GET_SCHEDULE_LIST';
 const ADD_SCHEDULE = 'ADD_SCHEDULE';
 const UPDATE_SCHEDULE = 'UPDATE_SCHEDULE';
 const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
 export const setListRefresh = createAction(SET_LIST_REFRESH);
+export const changeMonth = createAction(CHANGE_MONTH);
 export const getScheduleList = createAction(GET_SCHEDULE_LIST, getScheduleListAPI);
 export const addSchedule = createAction(ADD_SCHEDULE, postScheduleAPI);
-export const updateSchedule = createAction(UPDATE_SCHEDULE, postScheduleAPI);
+export const updateSchedule = createAction(UPDATE_SCHEDULE, patchScheduleAPI);
 export const deleteSchedule = createAction(DELETE_SCHEDULE, deleteScheduleAPI);
 
 const initialState = {
     listRefresh: false,
+    fromDay: new Date().toISOString().substring(0,10),
+    slYear: new Date().getFullYear(),
+    slMonth: new Date().getMonth() + 1,
     scheduleList: null
 }
 
 export default handleActions({
     [SET_LIST_REFRESH]: (state, action) => {
         return { ...state, listRefresh:true };
+    },
+    [CHANGE_MONTH]: (state, action) => {
+        const { fromDay, slYear, slMonth } = action.payload;
+        return { ...state, listRefresh:true, fromDay, slYear, slMonth };
     },
     ...pender({
         type: GET_SCHEDULE_LIST,

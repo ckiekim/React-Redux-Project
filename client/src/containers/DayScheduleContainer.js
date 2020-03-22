@@ -6,6 +6,7 @@ import * as generalActions from '../modules/general';
 
 export default connect(
     (state) => ({
+        today: state.general.today,
         dateRefresh: state.date.dateRefresh,
         date: state.date.date,
         dayData: state.date.dayData,
