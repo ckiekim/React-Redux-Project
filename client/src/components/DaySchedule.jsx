@@ -58,7 +58,11 @@ export default function DaySchedule(props) {
             return;
         console.log('DaySchedule: useEffect()', date, props.fullDay);
         getDate(date);
-        let today = new Date().toISOString().substring(0,10).replace(/-/g,'');
+        let tmp = new Date().toLocaleDateString().replace(/\./g, '').split(' ');
+        let ym = tmp[1].length===1 ? tmp[0]+'0'+tmp[1] : tmp[0]+tmp[1];
+        let today = tmp[2].length===1 ? ym+'0'+tmp[2] : ym+tmp[2];
+        //let today = new Date().toISOString().substring(0,10).replace(/-/g,'');
+        console.log(date, today);
         if (date === today) {
             //console.log(dayData);
             if (dayData !== null)

@@ -7,6 +7,7 @@ import * as scheduleActions from '../modules/schedule';
 export default connect(
     (state) => ({
         mode: state.general.mode,
+        today: state.general.today,
         listRefresh: state.schedule.listRefresh,
         scheduleList: state.schedule.scheduleList,
         loading: state.pender.pending['GET_SCHEDULE_LIST'],

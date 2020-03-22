@@ -18,14 +18,14 @@ app.get('/api/calendar/:yearMonth', (req, res) => {
     });
 });
 app.get('/api/day/:fullDay', (req, res) => {
-    console.log(`server /api/day/${req.params.fullDay}`);
+    console.log(`server get /api/day/${req.params.fullDay}`);
     let fullDay = req.params.fullDay;
     dt.dayTable(fullDay, function(dayTable) {
         res.send(dayTable);
     });
 });
 app.get('/api/scheduleList/:fromDay', (req, res) => {
-    console.log(`server /api/scheduleList/${req.params.fromDay}`);
+    console.log(`server get /api/scheduleList/${req.params.fromDay}`);
     let fromDay = req.params.fromDay;
     mm.getScheduleList(fromDay, function(scheduleList) {
         res.send(scheduleList);
@@ -39,7 +39,7 @@ app.post('/api/schedule', (req, res) => {
     let startDayTime = `${req.body.startDay} ${req.body.startTime}:00`;
     let endDayTime = `${req.body.endDay} ${req.body.endTime}:00`;
     let importance = req.body.option === 'true' ? 1 : 0;
-    console.log(req.body.option, importance);
+    //console.log(req.body.option, importance);
     let memo = req.body.memo;
     let params = [title, place, fullDay, startDayTime, endDayTime, importance, memo];
     mm.addSchedule(params, function() {

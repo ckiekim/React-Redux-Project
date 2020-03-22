@@ -25,12 +25,18 @@ const myStyles = makeStyles(theme => ({
 }));
 
 export default function DayCard(props) {
-    const myClasses = myStyles();
+	const myClasses = myStyles();
+	const { today, GeneralActions } = props;
+	if (props.fullDay === today.replace(/-/g, '')) {
+		console.log('DayCard()', props.summary.length);
+		GeneralActions.changeBadge(props.summary.length);
+	}
 	let color = props.dow === 0 ? 'error' : 'textPrimary';
 	if (props.remark === 1)
 		color = 'error';
 	if (props.remark === 2)
 		color = 'textSecondary';
+	
     return (
 		<Card className={myClasses.dcRoot} variant="outlined">
 			<CardContent>

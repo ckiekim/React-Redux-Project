@@ -15,13 +15,29 @@ function postScheduleAPI(formData) {
     }
     return axios.post('/api/schedule', qs.stringify(formData), config);
 }
+function patchScheduleAPI(formData) {
+    let sid = formData.sid;
+    const config = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+    return axios.patch(`/api/schedule/${sid}`, qs.stringify(formData), config);
+}
+function deleteScheduleAPI(sid) {
+    return axios.delete(`/api/schedule/${sid}`);
+}
 
 const SET_LIST_REFRESH = 'SET_LIST_REFRESH';
 const GET_SCHEDULE_LIST = 'GET_SCHEDULE_LIST';
 const ADD_SCHEDULE = 'ADD_SCHEDULE';
+const UPDATE_SCHEDULE = 'UPDATE_SCHEDULE';
+const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
 export const setListRefresh = createAction(SET_LIST_REFRESH);
 export const getScheduleList = createAction(GET_SCHEDULE_LIST, getScheduleListAPI);
 export const addSchedule = createAction(ADD_SCHEDULE, postScheduleAPI);
+export const updateSchedule = createAction(UPDATE_SCHEDULE, postScheduleAPI);
+export const deleteSchedule = createAction(DELETE_SCHEDULE, deleteScheduleAPI);
 
 const initialState = {
     listRefresh: false,
@@ -42,6 +58,18 @@ export default handleActions({
     }),
     ...pender({
         type: ADD_SCHEDULE,
+        onSuccess: (state, action) => {
+            return { ...state, listRefresh:true }
+        }
+    }),
+    ...pender({
+        type: UPDATE_SCHEDULE,
+        onSuccess: (state, action) => {
+            return { ...state, listRefresh:true }
+        }
+    }),
+    ...pender({
+        type: DELETE_SCHEDULE,
         onSuccess: (state, action) => {
             return { ...state, listRefresh:true }
         }

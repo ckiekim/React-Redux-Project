@@ -12,8 +12,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 
 import CreateScheduleContainer from '../containers/CreateScheduleContainer';
+import DayCardContainer from '../containers/DayCardContainer';
 import Copyright from './Copyright';
-import DayCard from './DayCard';
 import DayOfWeek from './DayOfWeek';
 import useStyles from './useStyles';
 
@@ -103,7 +103,7 @@ export default function Main(props) {
                             monthData.map(week => (
                                 week.map(day => (
                                     <GridListTile key={day.day} rows={3}>
-                                        <DayCard dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
+                                        <DayCardContainer dow={day.dow} day={day.day} remark={day.remark} name={day.name} summary={day.summary} fullDay={day.fullDay}/>
                                     </GridListTile>
                                 ))
                             )) : ''

@@ -30,6 +30,10 @@ mm.getSchedulesByDay('20200320', function(rows) {
 
 console.log(new Date().toISOString().substring(0, 10).replace(/-/g,''));
 console.log(new Date().toLocaleTimeString()); */
-mm.getScheduleList('2020-04-03', function(rows) {
+/* mm.getScheduleList('2020-04-03', function(rows) {
     console.log(rows);
-});
+}); */
+
+console.log(new Date().toLocaleDateString('ko-KR'));
+var options = { year: 'numeric', month: 'numeric', date: 'numeric' };
+console.log(new Date().toLocaleString('ko-KR', options));

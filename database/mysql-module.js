@@ -143,9 +143,9 @@ module.exports = {
     },
     deleteSchedule: function(sid, callback) {
         const conn = this.getConnection();
-        const sql = 'delete from schedule sid = ?';
+        const sql = 'delete from schedule where sid = ?';
 
-        conn.query(sql, id, function(err, result) {
+        conn.query(sql, sid, function(err, result) {
             if (err)
                 console.log(err);
             else

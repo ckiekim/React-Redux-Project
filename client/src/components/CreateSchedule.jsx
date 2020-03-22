@@ -30,7 +30,7 @@ const myStyles = makeStyles(theme => ({
 
 export default function CreateSchedule(props) {
     const myClasses = myStyles();
-    const { flag, ScheduleActions, MonthActions } = props;
+    const { ScheduleActions, MonthActions } = props;
     const time = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30',
                   '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
                   '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -53,20 +53,24 @@ export default function CreateSchedule(props) {
     const handleOptionChange = event => {
         setFormData({...formData, ['option']:event.target.checked});
     };
-    const handleDateChange = name => event => {
-        let date = new Date(event);
-        //console.log(date.toTimeString());
-        let hour = Number(date.toTimeString().substring(0, 2)) + 9;     // TZ 해결
-        let minute = Number(date.toTimeString().substring(3, 5));
+    const setStartDateTime = (date) => {
+        //let date = new Date();
+        let dateString = date.toISOString().substring(0, 10);
+        let currentTime = date.toTimeString();
+        let hour = Number(currentTime.substring(0, 2));
+        let minute = Number(currentTime.substring(3, 5));
         let index = hour * 2;
         index += minute >= 30 ? 2 : 1;
-        //console.log(hour, minute, time[index]);
+        setFormData({...formData, ['startDay']:dateString, ['endDay']:dateString,
+                                ['startTime']:time[index%48], ['endTime']:time[(index+2)%48]});
+    }
+    const handleStartDateChange = event => {
+        setStartDateTime(new Date(event));
+    }
+    const handleEndDateChange = event => {
+        let date = new Date(event);
         let dateString = date.toISOString().substring(0, 10);
-        if (name === 'startDay')
-            setFormData({...formData, ['startDay']:dateString, ['endDay']:dateString,
-                                    ['startTime']:time[index%48], ['endTime']:time[(index+2)%48]});
-        else
-            setFormData({...formData, [name]:dateString});
+        setFormData({...formData, ['endDay']:dateString});
     };
     const handleTimeChange = event => {
         let startTime = event.target.value;
@@ -78,6 +82,7 @@ export default function CreateSchedule(props) {
 
     const handleClickOpen = () => {
         setCreateScheduleOpen(true);
+        setStartDateTime(new Date());
     };
     const handleClose = () => {
         setCreateScheduleOpen(false);
@@ -114,7 +119,7 @@ export default function CreateSchedule(props) {
                         <KeyboardDatePicker
                             disableToolbar variant="inline" format="yyyy-MM-dd" margin="normal"
                             id="startDay" label="시작일" name="startDay" value={formData.startDay}
-                            onChange={handleDateChange('startDay')}
+                            onChange={handleStartDateChange}
                             KeyboardButtonProps={{ 'aria-label': 'change date', }}
                         />
                         <FormControl className={myClasses.formControl}>
@@ -131,7 +136,7 @@ export default function CreateSchedule(props) {
                         <KeyboardDatePicker
                             disableToolbar variant="inline" format="yyyy-MM-dd" margin="normal"
                             id="endDay" label="종료일" name="endDay" value={formData.endDay}
-                            onChange={handleDateChange('endDay')}
+                            onChange={handleEndDateChange}
                             KeyboardButtonProps={{ 'aria-label': 'change date', }}
                         />
                         <FormControl className={myClasses.formControl}>
