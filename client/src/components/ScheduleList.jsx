@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ShowSchedule from './ShowSchedule';
 import CreateScheduleContainer from '../containers/CreateScheduleContainer';
 import UpdateScheduleContainer from '../containers/UpdateScheduleContainer';
 import DeleteScheduleContainer from '../containers/DeleteScheduleContainer';
@@ -22,7 +23,7 @@ import useStyles from './useStyles';
 
 export default function ScheduleList(props) {
     const classes = useStyles();
-    const { today, listRefresh, fromDay, slYear, slMonth, scheduleList, loading, error, GeneralActions, ScheduleActions } = props;
+    const { today, listRefresh, searchText, fromDay, slYear, slMonth, scheduleList, loading, error, GeneralActions, ScheduleActions } = props;
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
 
     const handlePrevious = () => {
@@ -34,13 +35,13 @@ export default function ScheduleList(props) {
         }
         let fd = newMonth > 9 ? `${newYear}-${newMonth}-01` : `${newYear}-0${newMonth}-01`;
         ScheduleActions.changeMonth({fromDay:fd, slYear:newYear, slMonth:newMonth});
+        ScheduleActions.changeSearchText('');
     };
     const handleThisMonth = () => {
         let newYear = new Date().getFullYear();
         let newMonth = new Date().getMonth() + 1;
-        if (slYear !== newYear || slMonth !== newMonth) {
-            ScheduleActions.changeMonth({fromDay:today, slYear:newYear, slMonth:newMonth});
-        }
+        ScheduleActions.changeMonth({fromDay:today, slYear:newYear, slMonth:newMonth});
+        ScheduleActions.changeSearchText('');
     };
     const handleNext = () => {
         let newYear = slYear;
@@ -51,10 +52,7 @@ export default function ScheduleList(props) {
         }
         let fd = newMonth > 9 ? `${newYear}-${newMonth}-01` : `${newYear}-0${newMonth}-01`;
         ScheduleActions.changeMonth({fromDay:fd, slYear:newYear, slMonth:newMonth});
-    };
-    const handleTitle = sid => e => {
-        e.preventDefault();
-        console.log('Title is pressed', sid);
+        ScheduleActions.changeSearchText('');
     };
     const handleMode = () => {
         GeneralActions.changeMode('GRID');
@@ -76,7 +74,38 @@ export default function ScheduleList(props) {
         console.log('ScheduleList: useEffect()');
         getScheduleList(fromDay);
     }, [listRefresh]);
-  
+
+    const filteredComponents = (sList) => {
+        sList = sList.filter((c) => {
+            return c.title.indexOf(searchText) >= 0;
+        });
+        return sList.map(item => (
+            <TableRow key={item.sid}>
+                <TableCell align="center" style={{color: item.dow===0 || item.remark===1 ? 'red' : 'black'}}>
+                    {item.date}{' ('}{dowName[item.dow]}{')'}
+                </TableCell>
+                <TableCell style={{color: item.dow===0 || item.remark===1 ? 'red' : 'black'}}>
+                    {item.name}
+                </TableCell>
+                <TableCell>{item.title}
+                    <ShowSchedule sid={item.sid} title={item.title} 
+                                startDayTime={item.startDayTime} endDayTime={item.endDayTime} 
+                                option={item.importance} place={item.place} memo={item.memo} />
+                </TableCell>
+                <TableCell>{item.place}</TableCell>
+                <TableCell align="center">{item.startDayTime}</TableCell>
+                <TableCell align="center">{item.endDayTime}</TableCell>
+                <TableCell align="center">{item.importance===1? <span>✓</span>: ' '}</TableCell>
+                <TableCell align="center">
+                    <UpdateScheduleContainer sid={item.sid} title={item.title} 
+                                startDayTime={item.startDayTime} endDayTime={item.endDayTime} 
+                                option={item.importance} place={item.place} memo={item.memo} />
+                    <DeleteScheduleContainer sid={item.sid} title={item.title} />
+                </TableCell>
+            </TableRow>
+        ))
+    }
+
     return (
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
@@ -116,7 +145,8 @@ export default function ScheduleList(props) {
                     </TableHead>
                     { scheduleList ?                  
                     (<TableBody>
-                        {scheduleList.map(item => (
+                        {filteredComponents(scheduleList)}
+                        {/* {scheduleList.map(item => (
                             <TableRow key={item.sid}>
                                 <TableCell align="center" style={{color: item.dow===0 || item.remark===1 ? 'red' : 'black'}}>
                                     {item.date}{' ('}{dowName[item.dow]}{')'}
@@ -124,7 +154,11 @@ export default function ScheduleList(props) {
                                 <TableCell style={{color: item.dow===0 || item.remark===1 ? 'red' : 'black'}}>
                                     {item.name}
                                 </TableCell>
-                                <TableCell><a href="#" onClick={handleTitle(item.sid)}>{item.title}</a></TableCell>
+                                <TableCell>{item.title}
+                                    <ShowSchedule sid={item.sid} title={item.title} 
+                                                startDayTime={item.startDayTime} endDayTime={item.endDayTime} 
+                                                option={item.importance} place={item.place} memo={item.memo} />
+                                </TableCell>
                                 <TableCell>{item.place}</TableCell>
                                 <TableCell align="center">{item.startDayTime}</TableCell>
                                 <TableCell align="center">{item.endDayTime}</TableCell>
@@ -136,7 +170,7 @@ export default function ScheduleList(props) {
                                     <DeleteScheduleContainer sid={item.sid} title={item.title} />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ))} */}
                     </TableBody>) : ''
                     }
                 </Table>

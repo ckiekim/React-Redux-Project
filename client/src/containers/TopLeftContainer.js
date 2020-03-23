@@ -1,4 +1,4 @@
-import ScheduleList from '../components/ScheduleList';
+import TopLeft from '../components/TopLeft';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as generalActions from '../modules/general';
@@ -7,18 +7,12 @@ import * as scheduleActions from '../modules/schedule';
 export default connect(
     (state) => ({
         mode: state.general.mode,
-        today: state.general.today,
+        badgeContent: state.general.badgeContent,
         listRefresh: state.schedule.listRefresh,
-        searchText: state.schedule.searchText,
-        fromDay: state.schedule.fromDay,
-        slYear: state.schedule.slYear,
-        slMonth: state.schedule.slMonth,
-        scheduleList: state.schedule.scheduleList,
-        loading: state.pender.pending['GET_SCHEDULE_LIST'],
-        error: state.pender.failure['GET_SCHEDULE_LIST']
+        searchText: state.schedule.searchText
     }),
     (dispatch) => ({
         GeneralActions: bindActionCreators(generalActions, dispatch),
         ScheduleActions: bindActionCreators(scheduleActions, dispatch)
     })
-)(ScheduleList);
+)(TopLeft);

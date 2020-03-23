@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TopLeft from './components/TopLeft';
+import TopLeftContainer from './containers/TopLeftContainer';
 import MainContainer from './containers/MainContainer';
 import ScheduleListContainer from './containers/ScheduleListContainer';
 
 import { bindActionCreators } from 'redux';
 import * as generalActions from './modules/general';
-import * as monthActions from './modules/month';
 
 class App extends Component {
 	componentDidMount() {
@@ -19,14 +18,15 @@ class App extends Component {
 		this.props.GeneralActions.setToday(today);
 	}
 	render() {
-		const { mode, badgeContent } = this.props;
+		const { mode } = this.props;
 		return (
 			<div style={{ display: 'flex'}}>
 				<CssBaseline />
-				<TopLeft badgeContent={badgeContent} />
-				{mode === 'GRID' ?
-					<MainContainer /> :
-					<ScheduleListContainer />
+				<TopLeftContainer />
+				{
+					mode === 'GRID' ?
+						<MainContainer /> :
+						<ScheduleListContainer />
 				}
 			</div>
 		);
@@ -36,13 +36,9 @@ class App extends Component {
 export default connect(
 	(state) => ({
 		mode: state.general.mode,
-		today: state.general.today,
-		year: state.month.year,
-		month: state.month.month,
-		badgeContent: state.general.badgeContent
+		today: state.general.today
 	}),
 	(dispatch) => ({
 		GeneralActions: bindActionCreators(generalActions, dispatch),
-		MonthActions: bindActionCreators(monthActions, dispatch)
 	})	
 )(App);

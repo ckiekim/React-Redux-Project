@@ -99,7 +99,7 @@ module.exports = {
     getScheduleList: function(params, callback) {
         const conn = this.getConnection();
         const sql = `SELECT s.sid, DATE_FORMAT(s.startDayTime, '%Y-%m-%d') AS date, 
-            c.dow, c.holiday AS remark, a.aName AS NAME, a.aName AS NAME, 
+            c.dow, c.holiday AS remark, a.aName AS name, 
             s.title, s.place, DATE_FORMAT(s.startDayTime, '%Y-%m-%d %H:%i') AS startDayTime,
             DATE_FORMAT(s.endDayTime, '%Y-%m-%d %H:%i') AS endDayTime, s.importance, s.memo
             FROM schedule AS s

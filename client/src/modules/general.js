@@ -16,12 +16,12 @@ const initialState = {
 
 export default handleActions({
     [CHANGE_MODE]: (state, action) => {
-        console.log(action.payload);
+        //console.log('changeMode()', action.payload);
         let mode = action.payload;
         return { ...state, mode };
     },
     [SET_TODAY]: (state, action) => {
-        console.log('setToday()', action.payload);
+        //console.log('setToday()', action.payload);
         let today = action.payload;
         return { ...state, today };
     },

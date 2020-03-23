@@ -11,22 +11,23 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import InputBase from '@material-ui/core/InputBase';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import CreateIcon from '@material-ui/icons/Create';
+import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 
-import { mainListItems, secondaryListItems } from './MenuItems';
 import useStyles from './useStyles';
 
 export default function TopLeft(props) {
     const classes = useStyles();
+    const { mode, badgeContent, listRefresh, searchText, GeneralActions, ScheduleActions } = props;
     const [drawerOpen, setDrawerOpen] = React.useState(true);
-    const [searchResultOpen, setSearchResultOpen] = React.useState(false);
-    const [searchText, setSearchText] = React.useState('');
     const handleDrawerOpen = () => {
         setDrawerOpen(true);
     };
@@ -35,18 +36,25 @@ export default function TopLeft(props) {
     };
     const handleSearch = event => {
         //console.log(event.target.value);
-        setSearchText(event.target.value);
+        ScheduleActions.changeSearchText(event.target.value);
     }
-    const handleSearchClose = () => {
-        setSearchText('');
-        setSearchResultOpen(false);
+    const handleGridMode = () => {
+        //console.log('handleGridMode');
+        if (mode !== 'GRID')
+            GeneralActions.changeMode('GRID');
     }
-    const handleSearchSubmit = () => {
-        console.log(searchText);
-        setSearchResultOpen(true);
+    const handleListMode = () => {
+        //console.log('handleListMode');
+        if (mode !== 'LIST')
+            GeneralActions.changeMode('LIST');
+    }
+    const handleCreate = () => {
+        console.log('handleCreate');
+    }
+    const handleImportance = () => {
+        console.log('handleImportance');
     }
 
-    //console.log("TopLeft", props.badgeContent);
     return (
         <nav>    
             <AppBar position="absolute" className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
@@ -61,27 +69,20 @@ export default function TopLeft(props) {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         My Scheduler (일정 관리)
                     </Typography>
-                    <div className={classes.search}>                        
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            name="search" placeholder="Search…" onChange={handleSearch}
-                            classes={{ root: classes.inputRoot, input: classes.inputInput, }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                        <Dialog open={searchResultOpen} onClose={handleSearchClose} aria-labelledby="form-dialog-title">
-                            <DialogTitle id="form-dialog-title">검색 결과</DialogTitle>
-                            <DialogContent></DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleSearchClose} variant="outlined" color="primary">
-                                    닫기
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
+                    { mode === 'LIST' ?
+                        (<div className={classes.search}>                        
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                name="search" placeholder="Search…" onChange={handleSearch}
+                                classes={{ root: classes.inputRoot, input: classes.inputInput, }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>) : ''
+                    }
                     <IconButton color="inherit">
-                        <Badge badgeContent={props.badgeContent} color="secondary">
+                        <Badge badgeContent={badgeContent} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -89,9 +90,7 @@ export default function TopLeft(props) {
             </AppBar>
             <Drawer
                 variant="permanent"
-                classes={{
-                    paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
-                }}
+                classes={{ paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose), }}
                 open={drawerOpen}
             >
                 <div className={classes.toolbarIcon}>
@@ -100,9 +99,30 @@ export default function TopLeft(props) {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>{mainListItems}</List>
+                <List>
+                    <ListSubheader inset>메뉴</ListSubheader>
+                    <ListItem button key={11} onClick={handleGridMode}>
+                        <ListItemIcon><ViewComfyIcon /></ListItemIcon>
+                        <ListItemText primary="대쉬 보드" />
+                    </ListItem>
+                    <ListItem button key={12} onClick={handleListMode}>
+                        <ListItemIcon><ListAltIcon /></ListItemIcon>
+                        <ListItemText primary="상세 일정" />
+                    </ListItem>
+                </List>
                 <Divider />
-                <List>{secondaryListItems}</List>
+                <List>
+                    <ListItem button key={21} onClick={handleCreate}>
+                        <ListItemIcon><CreateIcon /></ListItemIcon>
+                        <ListItemText primary="일정 추가" />
+                    </ListItem>
+                    <ListItem button key={22} onClick={handleImportance}>
+                        <ListItemIcon><LabelImportantIcon /></ListItemIcon>
+                        <ListItemText primary="중요 일정" />
+                    </ListItem> 
+                </List>
+                <br/>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </Drawer>
         </nav>
     );
