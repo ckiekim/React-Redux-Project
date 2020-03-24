@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import UpdateIcon from '@material-ui/icons/Update';
-import DeleteIcon from '@material-ui/icons/Delete';
+//import UpdateIcon from '@material-ui/icons/Update';
+//import DeleteIcon from '@material-ui/icons/Delete';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -29,7 +29,7 @@ const myStyles = makeStyles(theme => ({
 
 export default function DaySchedule(props) {
     const myClasses = myStyles();
-    const { today, fullDay, dateRefresh, date, dayData, DateActions, GeneralActions } = props;
+    const { today, fullDay, dateRefresh, date, dayData, DateActions, GeneralActions, ScheduleActions } = props;
     const [dayScheduleOpen, setDayScheduleOpen] = React.useState(false);
     const handleClickOpen = () => {
         setDayScheduleOpen(true);
@@ -37,6 +37,9 @@ export default function DaySchedule(props) {
     };
     const handleClickClose = () => {
         setDayScheduleOpen(false);
+    };
+    const handleClickCreate = () => {
+        ScheduleActions.setCreateScheduleOpen(true);
     };
 
     const getDate = async (fullDay) => {
@@ -81,7 +84,6 @@ export default function DaySchedule(props) {
                                     <TableCell align="center">시작시간</TableCell>
                                     <TableCell align="center">종료시간</TableCell>
                                     <TableCell align="center">중요</TableCell>
-                                    <TableCell align="center">메모</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -94,7 +96,6 @@ export default function DaySchedule(props) {
                                         <TableCell align="center">{row.startDayTime}</TableCell>
                                         <TableCell align="center">{row.endDayTime}</TableCell>
                                         <TableCell align="center">{row.importance===1? <span>✓</span>: ' '}</TableCell>
-                                        <TableCell align="center">{row.memo}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -102,6 +103,9 @@ export default function DaySchedule(props) {
                     }
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={handleClickCreate} variant="contained" color="primary">
+                        추가
+                    </Button>
                     <Button onClick={handleClickClose} variant="outlined" color="primary">
                         닫기
                     </Button>

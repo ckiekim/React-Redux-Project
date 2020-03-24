@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as dateActions from '../modules/date';
 import * as generalActions from '../modules/general';
+import * as scheduleActions from '../modules/schedule';
 
 export default connect(
     (state) => ({
@@ -15,6 +16,7 @@ export default connect(
     }),
     (dispatch) => ({
         DateActions: bindActionCreators(dateActions, dispatch),
-        GeneralActions: bindActionCreators(generalActions, dispatch)
+        GeneralActions: bindActionCreators(generalActions, dispatch),
+        ScheduleActions: bindActionCreators(scheduleActions, dispatch)
     })
 )(DaySchedule);

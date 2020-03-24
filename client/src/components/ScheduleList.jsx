@@ -25,7 +25,7 @@ export default function ScheduleList(props) {
     const classes = useStyles();
     const { today, listRefresh, searchText, fromDay, slYear, slMonth, scheduleList, loading, error, GeneralActions, ScheduleActions } = props;
     const dowName = ['일', '월', '화', '수', '목', '금', '토'];
-
+    
     const handlePrevious = () => {
         let newYear = slYear;
         let newMonth = slMonth - 1;
@@ -71,8 +71,13 @@ export default function ScheduleList(props) {
         }
     };
     useEffect(() => { 
-        console.log('ScheduleList: useEffect()');
-        getScheduleList(fromDay);
+        //console.log('ScheduleList: useEffect()');
+        if (fromDay === undefined) {
+            let newYear = parseInt(today.substring(0, 4));
+            let newMonth = parseInt(today.substring(5, 7));
+            ScheduleActions.changeMonth({fromDay:today, slYear:newYear, slMonth:newMonth});
+        }
+        getScheduleList(fromDay ? fromDay : today);
     }, [listRefresh]);
 
     const filteredComponents = (sList) => {
@@ -103,7 +108,7 @@ export default function ScheduleList(props) {
                     <DeleteScheduleContainer sid={item.sid} title={item.title} />
                 </TableCell>
             </TableRow>
-        ))
+        ));
     }
 
     return (

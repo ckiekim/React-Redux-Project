@@ -6,8 +6,10 @@ function getDateAPI(fullDay) {
     return axios.get(`/api/day/${fullDay}`);
 }
 
+const SET_DATE_REFRESH = 'SET_DATE_REFRESH';
 const CHANGE_DATE = 'CHANGE_DATE';
 const GET_DATE = 'GET_DATE';
+export const setDateRefresh = createAction(SET_DATE_REFRESH);
 export const changeDate = createAction(CHANGE_DATE);
 export const getDate = createAction(GET_DATE, getDateAPI);
 
@@ -18,6 +20,10 @@ const initialState = {
 }
 
 export default handleActions({
+    [SET_DATE_REFRESH]: (state, action) => {
+        //console.log(action.payload);
+        return { ...state, dateRefresh:action.payload };
+    },
     [CHANGE_DATE]: (state, action) => {
         //console.log(action.payload);
         return { ...state, dateRefresh:true, date:action.payload };

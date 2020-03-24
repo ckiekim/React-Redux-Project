@@ -21,6 +21,7 @@ import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import CreateIcon from '@material-ui/icons/Create';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
+import CreateScheduleContainer from '../containers/CreateScheduleContainer';
 
 import useStyles from './useStyles';
 
@@ -49,7 +50,8 @@ export default function TopLeft(props) {
             GeneralActions.changeMode('LIST');
     }
     const handleCreate = () => {
-        console.log('handleCreate');
+        //console.log('handleCreate');
+        ScheduleActions.setCreateScheduleOpen(true);
     }
     const handleImportance = () => {
         console.log('handleImportance');

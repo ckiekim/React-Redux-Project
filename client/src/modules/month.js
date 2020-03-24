@@ -25,7 +25,6 @@ export default handleActions({
         return { ...state, monthRefresh:true }
     },
     [CHANGE_MONTH]: (state, action) => {
-        console.log(action.payload);
         const { year, month } = action.payload;
         return { ...state, monthRefresh:true, year, month };
     },

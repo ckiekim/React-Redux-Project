@@ -54,7 +54,7 @@ app.patch('/api/schedule/:sid', (req, res) => {
     let fullDay = req.body.startDay.replace(/-/g, '');
     let startDayTime = `${req.body.startDay} ${req.body.startTime}:00`;
     let endDayTime = `${req.body.endDay} ${req.body.endTime}:00`;
-    let importance = req.body.option ? 1 : 0;
+    let importance = req.body.option === 'true' ? 1 : 0;
     let memo = req.body.memo;
     let params = [title, place, fullDay, startDayTime, endDayTime, importance, memo, sid];
     mm.updateSchedule(params, () => {

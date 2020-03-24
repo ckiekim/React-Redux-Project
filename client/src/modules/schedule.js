@@ -32,6 +32,9 @@ const SET_LIST_REFRESH = 'SET_LIST_REFRESH';
 const CHANGE_SEARCH_TEXT = 'CHANGE_SEARCH_TEXT';
 const CHANGE_MONTH = 'CHANGE_MONTH';
 const GET_SCHEDULE_LIST = 'GET_SCHEDULE_LIST';
+const SET_CREATE_SCHEDULE_OPEN = 'SET_CREATE_SCHEDULE_OPEN';
+//const SET_UPDATE_SCHEDULE_OPEN = 'SET_UPDATE_SCHEDULE_OPEN';
+//const SET_DELETE_SCHEDULE_OPEN = 'SET_DELETE_SCHEDULE_OPEN';
 const ADD_SCHEDULE = 'ADD_SCHEDULE';
 const UPDATE_SCHEDULE = 'UPDATE_SCHEDULE';
 const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
@@ -39,6 +42,9 @@ export const setListRefresh = createAction(SET_LIST_REFRESH);
 export const changeSearchText = createAction(CHANGE_SEARCH_TEXT);
 export const changeMonth = createAction(CHANGE_MONTH);
 export const getScheduleList = createAction(GET_SCHEDULE_LIST, getScheduleListAPI);
+export const setCreateScheduleOpen = createAction(SET_CREATE_SCHEDULE_OPEN);
+//export const setUpdateScheduleOpen = createAction(SET_UPDATE_SCHEDULE_OPEN);
+//export const setDeleteScheduleOpen = createAction(SET_DELETE_SCHEDULE_OPEN);
 export const addSchedule = createAction(ADD_SCHEDULE, postScheduleAPI);
 export const updateSchedule = createAction(UPDATE_SCHEDULE, patchScheduleAPI);
 export const deleteSchedule = createAction(DELETE_SCHEDULE, deleteScheduleAPI);
@@ -49,7 +55,10 @@ const initialState = {
     fromDay: new Date().toISOString().substring(0,10),
     slYear: new Date().getFullYear(),
     slMonth: new Date().getMonth() + 1,
-    scheduleList: null
+    scheduleList: null,
+    createScheduleOpen: false,
+    //updateScheduleOpen: false,
+    //deleteScheduleOpen: false
 }
 
 export default handleActions({
@@ -68,10 +77,18 @@ export default handleActions({
         type: GET_SCHEDULE_LIST,
         onSuccess: (state, action) => {
             const scheduleList = action.payload.data;
-            //console.log(action.payload);
             return { ...state, listRefresh:false, searchText:'', scheduleList }
         }
     }),
+    [SET_CREATE_SCHEDULE_OPEN]: (state, action) => {
+        return { ...state, createScheduleOpen:action.payload };
+    },
+    /* [SET_UPDATE_SCHEDULE_OPEN]: (state, action) => {
+        return { ...state, updateScheduleOpen:action.payload };
+    }, */
+    /* [SET_DELETE_SCHEDULE_OPEN]: (state, action) => {
+        return { ...state, deleteScheduleOpen:action.payload };
+    }, */
     ...pender({
         type: ADD_SCHEDULE,
         onSuccess: (state, action) => {

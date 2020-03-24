@@ -7,6 +7,7 @@ import * as monthActions from '../modules/month';
 export default connect(
     (state) => ({
         refresh: state.month.refresh,
+        createScheduleOpen: state.schedule.createScheduleOpen,
         loading: state.pender.pending['ADD_SCHEDULE'],
         error: state.pender.failure['ADD_SCHEDULE']
     }),

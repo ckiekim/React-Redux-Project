@@ -19,7 +19,7 @@ import useStyles from './useStyles';
 
 export default function Main(props) {
     const classes = useStyles();
-    const { monthRefresh, year, month, monthData, loading, error, GeneralActions, MonthActions } = props;
+    const { today, monthRefresh, year, month, monthData, loading, error, GeneralActions, MonthActions } = props;
     const handlePrevious = () => {
         let newYear = year;
         let newMonth = month - 1;
@@ -59,9 +59,17 @@ export default function Main(props) {
         }
     };
 
-    useEffect(() => { 
-        console.log('Main: useEffect()', year, month);
-        let yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
+    useEffect(() => {
+        let yearMonth;
+        //console.log('Main: useEffect()', year, month);
+        if (year === undefined) {
+            let newYear = parseInt(today.substring(0, 4));
+            let newMonth = parseInt(today.substring(5, 7));
+            MonthActions.changeMonth({year:newYear, month:newMonth});
+            yearMonth = newMonth > 9 ? `${newYear}${newMonth}` : `${newYear}0${newMonth}`;
+        } else {
+            yearMonth = month > 9 ? `${year}${month}` : `${year}0${month}`;
+        }
         getCalendar(yearMonth);
     }, [monthRefresh]);
 

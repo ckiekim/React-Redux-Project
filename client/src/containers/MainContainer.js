@@ -8,6 +8,7 @@ import * as scheduleActions from '../modules/schedule';
 
 export default connect(
     (state) => ({ 
+		today: state.general.today,
         monthRefresh: state.month.monthRefresh,
 		year: state.month.year,
 		month: state.month.month,
