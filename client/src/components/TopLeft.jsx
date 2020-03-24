@@ -21,13 +21,12 @@ import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import CreateIcon from '@material-ui/icons/Create';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
-import CreateScheduleContainer from '../containers/CreateScheduleContainer';
 
 import useStyles from './useStyles';
 
 export default function TopLeft(props) {
     const classes = useStyles();
-    const { mode, badgeContent, listRefresh, searchText, GeneralActions, ScheduleActions } = props;
+    const { mode, badgeContent, GeneralActions, ScheduleActions } = props;
     const [drawerOpen, setDrawerOpen] = React.useState(true);
     const handleDrawerOpen = () => {
         setDrawerOpen(true);

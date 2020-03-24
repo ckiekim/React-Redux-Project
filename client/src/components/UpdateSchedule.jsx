@@ -50,7 +50,7 @@ export default function UpdteSchedule(props) {
         setFormData({...formData, [event.target.name]: event.target.value});
     }
     const handleOptionChange = event => {
-        setFormData({...formData, ['option']:event.target.checked});
+        setFormData({...formData, option:event.target.checked});
     };
     const setStartDateTime = (date) => {
         let dateString = date.toISOString().substring(0, 10);
@@ -59,8 +59,8 @@ export default function UpdteSchedule(props) {
         let minute = Number(currentTime.substring(3, 5));
         let index = hour * 2;
         index += minute >= 30 ? 2 : 1;
-        setFormData({...formData, ['startDay']:dateString, ['endDay']:dateString,
-                                ['startTime']:time[index%48], ['endTime']:time[(index+2)%48]});
+        setFormData({...formData, startDay:dateString, endDay:dateString,
+                                startTime:time[index%48], endTime:time[(index+2)%48]});
     }
     const handleStartDateChange = event => {
         setStartDateTime(new Date(event));
@@ -68,14 +68,14 @@ export default function UpdteSchedule(props) {
     const handleEndDateChange = event => {
         let date = new Date(event);
         let dateString = date.toISOString().substring(0, 10);
-        setFormData({...formData, ['endDay']:dateString});
+        setFormData({...formData, endDay:dateString});
     };
     const handleTimeChange = event => {
         let startTime = event.target.value;
         let hour = Number(startTime.substring(0, 2));
         let minute = Number(startTime.substring(3));
         let index = hour * 2 + minute/30;
-        setFormData({...formData, ['startTime']:startTime, ['endTime']:time[(index+2)%48]})
+        setFormData({...formData, startTime:startTime, endTime:time[(index+2)%48]})
     }
 
     const handleClickOpen = () => {

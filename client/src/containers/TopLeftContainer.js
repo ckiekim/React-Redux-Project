@@ -7,9 +7,7 @@ import * as scheduleActions from '../modules/schedule';
 export default connect(
     (state) => ({
         mode: state.general.mode,
-        badgeContent: state.general.badgeContent,
-        listRefresh: state.schedule.listRefresh,
-        searchText: state.schedule.searchText
+        badgeContent: state.general.badgeContent
     }),
     (dispatch) => ({
         GeneralActions: bindActionCreators(generalActions, dispatch),
